@@ -14,7 +14,7 @@
                     alt="FacilityEase Logo">
             </div>
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" x-data="{ isLoading: false }" @submit.prevent="isLoading = true; $event.target.submit();">
                 @csrf
 
                 <!-- Email or UniversityID -->
@@ -37,7 +37,7 @@
                     <div class="relative">
                         <x-text-input id="password" class="block pr-10 mt-1 w-full" type="password" name="password"
                             autocomplete="current-password" x-bind:type="show ? 'text' : 'password'"
-                            @focus="show = true" @blur="show = false" />
+                            @blur="show = false" />
 
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer">
                             <svg @click="show = !show" class="h-6 w-6" fill="none" stroke="currentColor"
@@ -78,9 +78,9 @@
 
                 <div class="pt-3 flex items-right justify-end">
                     <!-- Forget password -->
-                    <div class="block my-2 text-facilityEaseMain font-bold">
+                    <div class="block my-2 font-bold">
                         @if (Route::has('password.request'))
-                            <a class="italic text-sm text-facilityEaseYellow hover:text-facilityEaseGreen hover:underline rounded-md focus:outline-none focus:ring-1 transition duration-300 ease-in-out"
+                            <a class="italic text-sm text-facilityEaseBlue hover:text-facilityEaseRed hover:underline rounded-md focus:outline-none focus:text-facilityEaseRed focus:ring-1 focus:ring-facilityEaseRed transition duration-300 ease-in-out"
                                 href="{{ route('password.request') }}">
                                 {{ __('Forgot your password?') }}
                             </a>
