@@ -516,7 +516,7 @@
                                 @if ($reservation->status == 'APPROVED' || $reservation->status == 'REVOKED')
                                     <form
                                         action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('updateReservationStatus', ['id' => $reservation->id, 'status' => 'REVOKED']) }} @elseif (Auth::user()->user_role->where('roleID', 2)->count() > 0) {{ route('fic.updateReservationStatus', ['id' => $reservation->id, 'status' => 'REVOKED']) }} @endif"
-                                        method="post">
+                                        method="post" enctype="multipart/form-data">
                                         @csrf
                                         @method('patch')
                                         @if ($reservation->status !== 'REVOKED')
@@ -552,6 +552,15 @@
                                                         <textarea type="text" name="reason"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark: dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                             placeholder="Enter message" required=""></textarea>
+                                                            <h1 class="text-lg font-medium">Please attach required documents | optional:</h1>
+                                                        <div class="mt-2 rounded p-2">
+                                                            <div class="form-group">
+                                                                <input type="file" name="file[]" class="form-control" multiple>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-10 px-3">
+
                                                     </div>
                                                     <div class="mt-4">
                                                         <button type="submit"

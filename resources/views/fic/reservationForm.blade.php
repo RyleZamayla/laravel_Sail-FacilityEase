@@ -40,10 +40,40 @@
             </p>
         </div>
     @endif
-    <div class="py-12 h-auto">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="w-auto rounded-lg bg-white">
-                <div class=" bg-facilityEaseDarkGrey py-4 px-6 rounded-t-md flex justify-between shadow-lg">
+    <div class="py-6 h-auto flex flex-row">
+        <div class="flex-1 p-4">
+            <div class="rounded-lg bg-white">
+                {{-- <div class="fixed top-30 left-86 z-50"> --}}
+                    <div class="relative overflow-y-auto scrollbar-none p-4">
+                        <div class="ml-auto flex flex-row justify-center mr-2 mb-5">
+                            <div class="flex flex-row items-center px-2">
+                                <div class="p-3 rounded-md bg-facilityEaseTeal border border-facilityEaseWhite"></div>
+                                <span class="ml-2 italic ">Ongoing</span>
+                            </div>
+                            <div class="flex flex-row items-center px-2">
+                                <div class="p-3 rounded-md bg-facilityEaseGreen border border-facilityEaseWhite"></div>
+                                <span class="ml-2 italic ">Approved</span>
+                            </div>
+                            <div class="flex flex-row items-center px-2">
+                                <div class="p-3 rounded-md bg-facilityEaseBlue border border-facilityEaseWhite"></div>
+                                <span class="ml-2 italic ">Pencil Booked</span>
+                            </div>
+                            <div class="flex flex-row items-center px-2">
+                                <div class="p-3 rounded-md bg-facilityEaseMain border border-facilityEaseWhite"></div>
+                                <span class="ml-2 italic ">Rescheduled</span>
+                            </div>
+
+                        </div>
+                        <div id='calendar' class="h-96"></div>
+                    </div>
+                {{-- </div> --}}
+            </div>
+        </div>
+
+
+        <div class="flex-1 p-4">
+            <div class="rounded-lg bg-white">
+                <div class="bg-facilityEaseDarkGrey py-4 px-6 rounded-t-md flex justify-between shadow-lg">
                     <header class="flex items-center">
                         <h2 class="text-black text-2xl font-bold">RESERVATION DETAILS</h2>
                         <div
@@ -58,14 +88,15 @@
                         <meta name="csrf-token" content="{{ csrf_token() }}">
                     </header>
                 </div>
+
                 <div class="w-full py-6 px-4">
                     <form
                         action= "@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('createReservation', ['id' => $facility->id]) }}
-                    @elseif (Auth::user()->user_role->where('roleID', 2)->count() > 0) {{ route('fic.createReservation', ['id' => $facility->id]) }}
-                    @elseif (Auth::user()->user_role->where('roleID', 3)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }}
-                    @elseif (Auth::user()->user_role->where('roleID', 4)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }}
-                    @elseif (Auth::user()->user_role->where('roleID', 5)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }}
-                    @elseif (Auth::user()->user_role->where('roleID', 6)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }} @endif"
+                        @elseif (Auth::user()->user_role->where('roleID', 2)->count() > 0) {{ route('fic.createReservation', ['id' => $facility->id]) }}
+                        @elseif (Auth::user()->user_role->where('roleID', 3)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }}
+                        @elseif (Auth::user()->user_role->where('roleID', 4)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }}
+                        @elseif (Auth::user()->user_role->where('roleID', 5)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }}
+                        @elseif (Auth::user()->user_role->where('roleID', 6)->count() > 0) {{ route('user.createReservation', ['id' => $facility->id]) }} @endif"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="flex flex-wrap">
@@ -80,7 +111,6 @@
                                         value="{{ Auth::User()->fName }} {{ Auth::User()->lName }}" disabled />
                                 </div>
                             </div>
-
                             <div class="w-full px-3 sm:w-1/2">
                                 <div class="">
                                     <label for="lName" class="mt-3 block text-base font-medium ">
@@ -127,8 +157,8 @@
                                         Event Name:
                                         <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="event" id="guest" placeholder="e.g. Week of Welcome"
-                                        value="{{ old('event') }}"
+                                    <input type="text" name="event" id="guest"
+                                        placeholder="e.g. Week of Welcome" value="{{ old('event') }}"
                                         class="mt-2 w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-black font-medium  outline-none focus:border-[#6A64F1] focus:shadow-md" />
                                 </div>
                                 @if ($errors->has('event'))
@@ -264,10 +294,12 @@
             </div>
         </div>
     </div>
+
 @endsection
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="https://unpkg.com/create-file-list"></script>
+    <script defer src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -359,6 +391,49 @@
 
             // Trigger the update on page load if values are pre-filled
             updateEndDate();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var reservations = @json($reservations);
+            console.log(reservations);
+
+            var events = [];
+            reservations.forEach(function(reservation) {
+                reservation.reservation_days.forEach(function(reservationDay) {
+                    events.push({
+                        title: reservation.event,
+                        start: reservationDay.date + 'T' + reservationDay.startTime,
+                        end: reservationDay.date + 'T' + reservationDay.endTime,
+                        status: reservation.status
+                    });
+                });
+            });
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: events,
+                eventDidMount: function(arg) {
+                    var statusColorMap = {
+                        'PENCILBOOKED': '#3e7ce1',
+                        'APPROVED': '#34d399',
+                        'OCCUPIED': '#008080',
+                        'RESCHEDULED': '#fcb316'
+                        // Add more status-color mappings as needed
+                    };
+
+                    var color = statusColorMap[arg.event.extendedProps.status] || 'gray';
+
+                    arg.el.style.backgroundColor = color;
+                }
+            });
+
+            calendar.render();
         });
     </script>
 @endpush

@@ -25,16 +25,11 @@
             </div>
 
             <!-- Session Status -->
-            <x-auth-session-status
-            x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 2000)"
-                x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95"
-                x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-600"
-                x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95"
-            class="mt-2" :status="session('status')" />
+            <x-auth-session-status class="mt-2" :status="session('status')" />
 
             <div class="flex items-center justify-end mt-4">
                 <x-primary-button class="flex items-center justify-center text-facilityEaseBlack hover:text-facilityEaseWhite focus:text-facilityEaseWhite bg-facilityEaseMain hover:bg-facilityEaseBlue focus:bg-facilityEaseBlue transition ease-in-out duration-300 h-auto">
-                    {{ __('Email Password Reset Link') }}
+                    {{ __('Send Password Reset Link') }}
                 </x-primary-button>
             </div>
         </form>
