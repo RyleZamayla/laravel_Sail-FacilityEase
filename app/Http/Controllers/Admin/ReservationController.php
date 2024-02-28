@@ -94,7 +94,14 @@ class ReservationController extends Controller
 
         $equipments = Equipment::where('facilityID', $id)->get();
 
-        return view('fic.reservationForm', compact('facility', 'equipments'));
+        $reservations = Reservation::where('facilityID', $id)
+        ->whereIn('status', ['PENCILBOOKED', 'APPROVED', 'OCCUPIED', 'RESCHEDULED'])
+        ->with('reservation_days')
+        ->get();
+
+
+
+        return view('fic.reservationForm', compact('facility', 'equipments', 'reservations'));
     }
 
     public function createReservation(Request $request, $id)
@@ -142,21 +149,6 @@ class ReservationController extends Controller
         for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
             $requestData["startTime_$day"] = 'required|date_format:H:i';
             $requestData["endTime_$day"] = 'required|date_format:H:i';
-        }
-
-        $totalHours = 0;
-        for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
-            $startTime = Carbon::parse($request->input("startTime.$day"));
-            $endTime = Carbon::parse($request->input("endTime.$day"));
-            $hoursDiff = $endTime->diffInHours($startTime);
-
-            $totalHours += $hoursDiff;
-        }
-
-        if ($totalHours > $maxHours) {
-            return redirect()->back()->withErrors([
-                'maxHours' => "The total reservation hours exceed the maximum allowed hours ($maxHours)."
-            ])->withInput();
         }
 
         if ($requestData['noOfdays'] == 1) {
@@ -225,6 +217,7 @@ class ReservationController extends Controller
         $validationRules = [];
         $validationMessages = [];
 
+
         for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
             $validationRules["startTime.$day"] = [
                 'required',
@@ -235,24 +228,23 @@ class ReservationController extends Controller
                         $fail("The start time for day $day must be after or equal to the opening time of the facility ($openTime).");
                     }
                 },
-                // function ($attribute, $value, $fail) use ($facilities, $day, $requestData) {
-                //     $startTime = $requestData["startTime.$day"];
-                //     $endTime = $value;
-                //     $totalHours = Carbon::parse($startTime)->diffInHours(Carbon::parse($endTime));
-        
-                //     if ($totalHours > $facilities->maxHours) {
-                //         $fail("The total duration for day $day exceeds the maximum allowed hours of {$facilities->maxHours}.");
-                //     }
-                // },
             ];
             $validationRules["endTime.$day"] = [
                 'required',
                 'date_format:H:i',
                 'after:startTime.' . $day,
-                function ($attribute, $value, $fail) use ($facilities, $day) {
+                function ($attribute, $value, $fail) use ($facilities, $day, &$totalHoursPerDay) {
                     $closeTime = Carbon::parse($facilities->closeTime)->format('H:i');
                     if ($value > $closeTime) {
                         $fail("The end time for day $day must be before or equal to the closing time of the facility ($closeTime).");
+                    }
+
+                    $totalHoursPerDay = 0;
+                    $startTime = request()->input("startTime.$day");
+                    $totalHoursPerDay += Carbon::parse($startTime)->diffInHours(Carbon::parse($value));
+
+                    if ($totalHoursPerDay > $facilities->maxHours) {
+                        $fail("The total duration for day $day exceeds the maximum allowed hours of {$facilities->maxHours}.");
                     }
                 },
             ];
@@ -486,17 +478,12 @@ class ReservationController extends Controller
 
     public function updateReservationStatus(Request $request, $id, $status)
     {
-
         $request->validate([
             'reason' => 'nullable|string',
+            'file.*' => 'nullable|file|max:2048',
         ]);
 
         $reservation = Reservation::with('facility.user_role.user', 'user', 'reservation_days')->findOrFail($id);
-
-        $reservation->status = $status;
-        $reservation->reason = $request->input('reason');
-
-        $reservation->save();
 
         // HELL
         $dateRange = [];
@@ -548,12 +535,12 @@ class ReservationController extends Controller
         ]);
 
         foreach ($toDecline as $re) {
-            //EMAIL for DECLINED RESERVATION
+            // EMAIL for DECLINED RESERVATION
             try {
                 Mail::to($re->user->email)->send(new ReservartionStatusMail($re->user, $re));
                 sleep(2);
-                $facilititor = $re->facility->user_role->user;
-                Mail::to($facilititor->email)->send(new ReservartionStatusMail($facilititor, $re));
+                $facilitator = $re->facility->user_role->user;
+                Mail::to($facilitator->email)->send(new ReservartionStatusMail($facilitator, $re));
                 sleep(2);
                 // $admins = UserRoles::with('user')->where('roleID', 1)->get();
                 // foreach ($admins as $admin) {
@@ -565,22 +552,45 @@ class ReservationController extends Controller
             }
         }
 
+        if ($request->hasFile('file') && count($request->file('file')) > 0) {
+            foreach ($request->file('file') as $file) {
+                if ($file->isValid()) {
+                    $originalFileName = $file->getClientOriginalName();
+                    $filePath = $file->storeAs('reservation_files', $originalFileName, 'public');
+
+                    ReservationDocuments::create([
+                        'reservationID' => $reservation->id,
+                        'file' => $filePath,
+                    ]);
+                } else {
+                    return redirect()->back()->withErrors(['file' => 'One or more files are not valid.']);
+                }
+            }
+        }
+
+        $reservation->status = $status;
+        $reservation->reason = $request->input('reason');
+
         try {
+            // Save reservation after handling conflicts, declines, and file upload
+            $reservation->save();
+
+            // Send emails
             Mail::to($reservation->user->email)->send(new ReservartionStatusMail($reservation->user, $reservation));
             sleep(2);
-            $facilititor = $reservation->facility->user_role->user;
-            Mail::to($facilititor->email)->send(new ReservartionStatusMail($facilititor, $reservation));
+            $facilitator = $reservation->facility->user_role->user;
+            Mail::to($facilitator->email)->send(new ReservartionStatusMail($facilitator, $reservation));
             sleep(2);
             // $admins = UserRoles::with('user')->where('roleID', 1)->get();
             // foreach ($admins as $admin) {
             //     Mail::to($admin->user->email)->send(new ReservartionStatusMail($admin->user, $reservation));
             //     sleep(2);
             // }
-        } catch (\Throwable $e) {
-            info($e);
-        }
 
-        return redirect()->back()->with('success', 'Reservation status updated successfully');
+            return redirect()->back()->with('success', 'Reservation status updated successfully');
+        } catch (\Throwable $e) {
+            return redirect()->back()->withErrors(['error' => 'Failed to update reservation status.']);
+        }
     }
 
 
