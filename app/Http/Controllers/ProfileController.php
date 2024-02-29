@@ -179,17 +179,33 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('img')) {
+            // Delete old image if it exists
+            if ($user->img_url) {
+                $oldImagePath = storage_path("app/public/{$user->img_url}");
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+        
             $imagePath = $request->file('img')->store('public/images');
             $data["img_url"] = str_replace('public/', '', $imagePath);
             $user->update($data);
         }
-
+        
         if ($request->hasFile('imgSvg')) {
+            // Delete old image if it exists
+            if ($user->img_url) {
+                $oldImagePath = storage_path("app/public/{$user->img_url}");
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+        
             $imagePath = $request->file('imgSvg')->store('public/images');
             $data["img_url"] = str_replace('public/', '', $imagePath);
             $user->update($data);
         }
-
+        
         $user->fill($request->validated());
 
         if ($user->isDirty('email')) {
