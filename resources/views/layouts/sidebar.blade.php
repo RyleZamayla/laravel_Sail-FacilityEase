@@ -77,7 +77,9 @@
         </li>
         <li>
             <a href="{{ route('dashboard') }}"
-                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('dashboard') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -90,12 +92,12 @@
             </a>
         </li>
         <li>
-            @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 ||
-                    Auth::User()->User_Role->where('roleID', 2)->count() > 0)
-                <a href="@if (Auth::User()->User_Role->where('roleID', 1)->count() > 0) {{ route('scanner') }}
-             @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
-                {{ route('fic.scanner') }} @endif"
-                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+            @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 || Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+                @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
+                 <a href=" {{ route('scanner') }}"
+                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                    {{ request()->routeIs('scanner') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                    ">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5">
@@ -107,22 +109,31 @@
                     </span>
                     <span class="ml-2 text-sm tracking-wide truncate">QRcode Scanner</span>
                 </a>
+                @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+                <a href=" {{ route('fic.scanner') }}"
+                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                    {{ request()->routeIs('fic.scanner') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                    ">
+                    <span class="inline-flex justify-center items-center ml-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z" />
+                        </svg>
+                    </span>
+                    <span class="ml-2 text-sm tracking-wide truncate">QRcode Scanner</span>
+                </a>
+                @endif
             @endif
         </li>
         <li>
-            <a href= "
-             @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0) {{ route('showReservations', ['universityID' => Auth::User()->universityID]) }}
-             @elseif(Auth::User()->User_Role->where('roleID', 2)->count() > 0)
-                    {{ route('fic.showReservations', ['universityID' => Auth::User()->universityID]) }}
-             @elseif(Auth::User()->User_Role->where('roleID', 3)->count() > 0)
-                    {{ route('user.showReservations', ['universityID' => Auth::User()->universityID]) }}
-            @elseif(Auth::User()->User_Role->where('roleID', 4)->count() > 0)
-                    {{ route('user.showReservations', ['universityID' => Auth::User()->universityID]) }}
-            @elseif(Auth::User()->User_Role->where('roleID', 5)->count() > 0)
-                    {{ route('user.showReservations', ['universityID' => Auth::User()->universityID]) }}
-            @elseif(Auth::User()->User_Role->where('roleID', 6)->count() > 0)
-                    {{ route('user.showReservations', ['universityID' => Auth::User()->universityID]) }} @endif"
-                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+            @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
+            <a href= "{{ route('showReservations', ['universityID' => Auth::User()->universityID]) }}"
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -133,21 +144,44 @@
                 </span>
                 <span class="ml-2 text-sm tracking-wide truncate">Reservations</span>
             </a>
+            @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+            <a href= "{{ route('fic.showReservations', ['universityID' => Auth::User()->universityID]) }}"
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('fic.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
+                <span class="inline-flex justify-center items-center ml-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25">
+                        </path>
+                    </svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Reservations</span>
+            </a>
+            @elseif (Auth::User()->User_Role->where('roleID', 3 || 4 || 5)->count() > 0)
+            <a href= "{{ route('user.showReservations', ['universityID' => Auth::User()->universityID]) }}"
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('user.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
+                <span class="inline-flex justify-center items-center ml-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25">
+                        </path>
+                    </svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Reservations</span>
+            </a>
+            @endif
         </li>
         <li>
-            <a href="
-             @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0) {{ route('facilities') }}
-             @elseif(Auth::User()->User_Role->where('roleID', 2)->count() > 0)
-                    {{ route('fic.facilities') }}
-            @elseif(Auth::User()->User_Role->where('roleID', 3)->count() > 0)
-                    {{ route('user.facilities') }}
-            @elseif(Auth::User()->User_Role->where('roleID', 4)->count() > 0)
-                    {{ route('user.facilities') }}
-            @elseif(Auth::User()->User_Role->where('roleID', 5)->count() > 0)
-                    {{ route('user.facilities') }}
-            @elseif(Auth::User()->User_Role->where('roleID', 6)->count() > 0)
-                    {{ route('user.facilities') }} @endif"
-                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+            @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
+            <a href="{{ route('facilities') }}"
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -158,39 +192,105 @@
                 </span>
                 <span class="ml-2 text-sm tracking-wide truncate">Facilities</span>
             </a>
-        </li>
-        @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 ||
-                Auth::User()->User_Role->where('roleID', 2)->count() > 0)
-            <a href="
-                @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0) {{ route('equipment') }}
-                 @elseif(Auth::User()->User_Role->where('roleID', 2)->count() > 0) {{ route('fic.equipment') }} @endif
-                    "
-                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+            @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+            <a href="{{ route('fic.facilities') }}"
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('fic.facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z">
+                            d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z">
                         </path>
                     </svg>
                 </span>
-                <span class="ml-2 text-sm tracking-wide truncate">Equipments</span>
+                <span class="ml-2 text-sm tracking-wide truncate">Facilities</span>
             </a>
+            @elseif (Auth::User()->User_Role->where('roleID', 3 || 4 || 5)->count() > 0)
+            <a href="{{ route('user.facilities') }}"
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('user.facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
+                <span class="inline-flex justify-center items-center ml-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z">
+                        </path>
+                    </svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Facilities</span>
+            </a>
+            @endif
+        </li>
+        @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 || Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+            <li>
+                @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
+                    <a href="{{ route('equipment') }}"
+                        class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                        {{ request()->routeIs('equipment') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        ">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate">Equipments</span>
+                    </a>
+                @endif
+                @if (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+                    <a href="{{ route('fic.equipment') }}"
+                        class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                        {{ request()->routeIs('fic.equipment') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        ">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate">Equipments</span>
+                    </a>
+                @endif
             </li>
             <li>
-                <a href="@if (Auth::User()->User_Role->where('roleID', 1)->count() > 0) {{ route('report') }}
-                @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0) {{ route('fic.report') }} @endif"
-                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
-                    <span class="inline-flex justify-center items-center ml-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z">
-                            </path>
-                        </svg>
-                    </span>
-                    <span class="ml-2 text-sm tracking-wide truncate">Reports</span>
-                </a>
+                @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
+                    <a href="{{ route('report') }}"
+                        class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                        {{ request()->routeIs('report') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        ">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate">Reports</span>
+                    </a>
+                @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+                    <a href="{{ route('fic.report') }}"
+                        class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                        {{ request()->routeIs('fic.report') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        ">
+                        <span class="inline-flex justify-center items-center ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm tracking-wide truncate">Reports</span>
+                    </a>
+                @endif
             </li>
         @endif
         <li class="px-2">
@@ -200,7 +300,9 @@
         </li>
         <li>
             <a href="{{ route('profile.edit') }}"
-                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                {{ request()->routeIs('profile.edit') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -215,7 +317,9 @@
         @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
             <li>
                 <a href="{{ route('admin.settings') }}"
-                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
+                    {{ request()->routeIs('admin.settings') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                    ">
                     <span class="inline-flex justify-center items-center ml-4">
 
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -234,10 +338,11 @@
         @endif
 
         <li class="pt-12 pb-10">
-            <form method="POST" action="{{ route('logout') }}" class="cursor-pointer">
+            <form method="POST" action="{{ route('logout') }}"
+                class="cursor-pointer">
                 @csrf
                 <a :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"
-                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300">
+                    class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white border-l-4 border-transparent hover:border-facilityEaseMain hover:text-facilityEaseSecondary pr-6 w-full transition ease-in-out duration-300">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
