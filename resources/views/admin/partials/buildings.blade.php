@@ -49,23 +49,25 @@
                         </div>
                         @endif
                     </td>
-                    <td class="flex justify-between lg:justify-end px-6 py-4">
-                        <form action="{{ route('toggle-building-status', ['buildingId' => $data->id]) }}" method="post">
-                            @csrf
+                    <td class="flex-1 px-6 py-4">
+                        <div class="flex justify-between lg:justify-end">
+                            <form action="{{ route('toggle-building-status', ['buildingId' => $data->id]) }}" method="post">
+                                @csrf
 
-                            @if ($data->status == 'ACTIVE')
-                            <button type="submit" class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseRed rounded-md hover:bg-red-600 transition ease-in-out duration-300">
-                                Deactivate
+                                @if ($data->status == 'ACTIVE')
+                                <button type="submit" class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseRed rounded-md hover:bg-red-600 transition ease-in-out duration-300">
+                                    Deactivate
+                                </button>
+                                @elseif ($data->status == 'INACTIVE')
+                                <button type="submit" class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseGreen rounded-md hover:bg-green-500 transition ease-in-out duration-300">
+                                    Activate
+                                </button>
+                                @endif
+                            </form>
+                            <button x-data="" x-on:click="$dispatch('open-modal', 'edit-building-{{ $data->id }}')" class="w-32 px-4 py-2 leading-none text-white bg-facilityEaseMain rounded-md hover:bg-facilityEaseSecondary transition ease-in-out duration-300">
+                                Edit
                             </button>
-                            @elseif ($data->status == 'INACTIVE')
-                            <button type="submit" class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseGreen rounded-md hover:bg-green-500 transition ease-in-out duration-300">
-                                Activate
-                            </button>
-                            @endif
-                        </form>
-                        <button x-data="" x-on:click="$dispatch('open-modal', 'edit-building-{{ $data->id }}')" class="w-32 px-4 py-2 leading-none text-white bg-facilityEaseMain rounded-md hover:bg-facilityEaseSecondary transition ease-in-out duration-300">
-                            Edit
-                        </button>
+                        </div>
                     </td>
                 </tr>
 
