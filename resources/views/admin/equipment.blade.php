@@ -165,13 +165,7 @@
                                         Equipment
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Brand
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Model
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Facility
+                                        Location
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Quantity
@@ -190,17 +184,19 @@
                                         class="{{ $index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-100 dark:bg-gray-700' }} border-b">
                                         <td
                                             class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white max-w-sm overflow-hidden overflow-ellipsis">
-                                            {{ $equipment->equipment }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white max-w-sm overflow-hidden overflow-ellipsis">
-                                            {{ $equipment->brand }}
-                                        </td>
-                                        <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $equipment->model }}
+                                            <div class="text-base font-semibold">{{ $equipment->equipment }}</div>
+                                            <div class="font-normal text-gray-500">{{ $equipment->brand }}
+                                                {{ $equipment->model }}</div>
+
                                         </td>
                                         <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $equipment->facility->facility }}
+                                            <div class="text-base font-semibold">{{ $equipment->facility->facility }}
+                                            </div>
+                                            <div class="font-normal text-gray-500">
+                                                Bldg. {{ $facility->building->buildingNumber ?? 'N/A' }},
+                                                {{ $facility->building->building ?? 'N/A' }} –
+                                                {{ getOrdinal($facility->building_floor->floorNumber ?? 'N/A') }} Floor
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $equipment->quantity }}
@@ -265,8 +261,8 @@
                                                     </p>
                                                     <div class="mt-3 flex-1 mx-1">
                                                         <div class="flex">
-                                                            <x-input-label class="font-bold"
-                                                                for="facilityID" :value="__('Facility')" />
+                                                            <x-input-label class="font-bold" for="facilityID"
+                                                                :value="__('Facility')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
                                                         <select name="facilityID" id="facilities"
@@ -376,5 +372,28 @@
                 theme: 'bootstrap-5'
             });
         });
+
+        function getOrdinal(number) {
+            var suffix = 'th';
+            if (number % 100 >= 11 && number % 100 <= 13) {
+                suffix = 'th';
+            } else {
+                switch (number % 10) {
+                    case 1:
+                        suffix = 'st';
+                        break;
+                    case 2:
+                        suffix = 'nd';
+                        break;
+                    case 3:
+                        suffix = 'rd';
+                        break;
+                    default:
+                        suffix = 'th';
+                        break;
+                }
+            }
+            return number + suffix;
+        }
     </script>
 @endpush

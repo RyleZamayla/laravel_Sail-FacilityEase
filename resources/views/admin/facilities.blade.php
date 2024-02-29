@@ -237,7 +237,7 @@
                                         class="{{ $index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-100 dark:bg-gray-700' }} border-b">
                                         <td
                                             class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white max-w-sm overflow-hidden overflow-ellipsis">
-                                            <div class="ps-3">
+                                            <div class="">
                                                 <div class="text-base font-semibold max-w-sm overflow-hidden overflow-ellipsis"
                                                     id="facilityContainer">
                                                     {{ $facility->facility }}
@@ -271,37 +271,38 @@
                                                 @endif
                                             </td>
                                         @endif
-                                        <td class="flex justify-between lg:justify-end px-6 py-4">
-                                            @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 ||
-                                                    Auth::User()->User_Role->where('roleID', 2)->count() > 0)
-                                                <form
-                                                    action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('toggle-facility-status', ['facilityId' => $facility->id]) }}
+                                        <td class="flex-1 px-6 py-4">
+                                            <div class="flex justify-between lg:justify-end">
+                                                @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 ||
+                                                        Auth::User()->User_Role->where('roleID', 2)->count() > 0)
+                                                    <form
+                                                        action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('toggle-facility-status', ['facilityId' => $facility->id]) }}
                                                     @elseif (Auth::user()->user_role->where('roleID', 2)->count() > 0)
                                                         {{ route('fic.toggle-facility-status', ['facilityId' => $facility->id]) }} @endif"
-                                                    method="post">
-                                                    @csrf
+                                                        method="post">
+                                                        @csrf
 
-                                                    @if ($facility->status == 'ACTIVE')
-                                                        <button type="submit"
-                                                            class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseRed rounded-md hover:bg-red-600 transition ease-in-out duration-300">
-                                                            Deactivate
-                                                        </button>
-                                                    @elseif ($facility->status == 'INACTIVE')
-                                                        <button type="submit"
-                                                            class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseGreen rounded-md hover:bg-green-500 transition ease-in-out duration-300">
-                                                            Activate
-                                                        </button>
-                                                    @endif
-                                                </form>
-                                                <button x-data=""
-                                                    x-on:click="$dispatch('open-modal', 'edit-facility-{{ $facility->id }}')"
-                                                    class="w-32 px-4 py-2 leading-none text-white bg-facilityEaseMain rounded-md hover:bg-facilityEaseSecondary transition ease-in-out duration-300">
-                                                    Edit
-                                                </button>
-                                            @endif
+                                                        @if ($facility->status == 'ACTIVE')
+                                                            <button type="submit"
+                                                                class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseRed rounded-md hover:bg-red-600 transition ease-in-out duration-300">
+                                                                Deactivate
+                                                            </button>
+                                                        @elseif ($facility->status == 'INACTIVE')
+                                                            <button type="submit"
+                                                                class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseGreen rounded-md hover:bg-green-500 transition ease-in-out duration-300">
+                                                                Activate
+                                                            </button>
+                                                        @endif
+                                                    </form>
+                                                    <button x-data=""
+                                                        x-on:click="$dispatch('open-modal', 'edit-facility-{{ $facility->id }}')"
+                                                        class="w-32 px-4 py-2 leading-none text-white bg-facilityEaseMain rounded-md hover:bg-facilityEaseSecondary transition ease-in-out duration-300">
+                                                        Edit
+                                                    </button>
+                                                @endif
 
-                                            <form
-                                                action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
+                                                <form
+                                                    action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
                                         @elseif(Auth::user()->user_role->where('roleID', 2)->count() > 0)
                                             {{ route('fic.reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
                                         @elseif(Auth::user()->user_role->where('roleID', 3)->count() > 0)
@@ -312,16 +313,17 @@
                                             {{ route('user.reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
                                         @elseif(Auth::user()->user_role->where('roleID', 6)->count() > 0)
                                             {{ route('user.reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }} @endif">
-                                                <button type="submit"
-                                                    class="w-32 mx-2 px-4 py-2 leading-none text-white
+                                                    <button type="submit"
+                                                        class="w-32 mx-2 px-4 py-2 leading-none text-white
                                                 @if ($facility->status === 'INACTIVE') bg-facilityEaseDarkGrey cursor-not-allowed
                                                 @else
                                                     bg-facilityEaseBlue hover:bg-blue-700 @endif
                                                 transition ease-in-out duration-300 rounded-md"
-                                                    @if ($facility->status === 'INACTIVE') disabled @endif>
-                                                    Book
-                                                </button>
-                                            </form>
+                                                        @if ($facility->status === 'INACTIVE') disabled @endif>
+                                                        Book
+                                                    </button>
+                                                </form>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -401,7 +403,8 @@
                                                             :value="__('In charge')" />
                                                         <span class="text-red-500 ml-1">*</span>
                                                     </div>
-                                                    <select name="userRoleID" id="edit-userRoleID" class="block mt-1 w-full">
+                                                    <select name="userRoleID" id="edit-userRoleID"
+                                                        class="block mt-1 w-full">
                                                         <option hidden>Select Facility incharge</option>
                                                         @foreach ($userFacilityInCharges as $facilityInCharge)
                                                             <option value="{{ $facilityInCharge->id }}"
@@ -445,11 +448,16 @@
                                                 <div class="mt-6">
                                                     <div class="mt-3 flex-1 mx-1">
                                                         <div class="flex">
-                                                            <x-input-label class="font-bold" for="openTime" :value="__('Opening Time:')" />
+                                                            <x-input-label class="font-bold" for="openTime"
+                                                                :value="__('Opening Time:')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="time" name="openTime" autocomplete="off"
-                                                            :value="$facility->openTime ? Carbon\Carbon::parse($facility->openTime)->format('H:i') : null">
+                                                        <x-text-input class="block mt-1 w-full" type="time"
+                                                            name="openTime" autocomplete="off" :value="$facility->openTime
+                                                                ? Carbon\Carbon::parse($facility->openTime)->format(
+                                                                    'H:i',
+                                                                )
+                                                                : null">
                                                         </x-text-input>
                                                         <x-input-error :messages="$errors->get('openTime')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
@@ -459,11 +467,16 @@
                                                 <div class="mt-6">
                                                     <div class="mt-3 flex-1 mx-1">
                                                         <div class="flex">
-                                                            <x-input-label class="font-bold" for="closeTime" :value="__('Closing Time:')" />
+                                                            <x-input-label class="font-bold" for="closeTime"
+                                                                :value="__('Closing Time:')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="time" name="closeTime" autocomplete="off"
-                                                            :value="$facility->closeTime ? Carbon\Carbon::parse($facility->closeTime)->format('H:i') : null">
+                                                        <x-text-input class="block mt-1 w-full" type="time"
+                                                            name="closeTime" autocomplete="off" :value="$facility->closeTime
+                                                                ? Carbon\Carbon::parse($facility->closeTime)->format(
+                                                                    'H:i',
+                                                                )
+                                                                : null">
                                                         </x-text-input>
                                                         <x-input-error :messages="$errors->get('closeTime')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
@@ -489,7 +502,9 @@
                                                     <div class="mt-3 flex-1 mx-1">
                                                         <div class="flex">
                                                             <x-input-label class="font-bold" for="maxHours"
-                                                                :value="__('Maximum hour/s allowed per reservation:')" />
+                                                                :value="__(
+                                                                    'Maximum hour/s allowed per reservation:',
+                                                                )" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
                                                         <x-text-input class="block mt-1 w-full" type="number"
