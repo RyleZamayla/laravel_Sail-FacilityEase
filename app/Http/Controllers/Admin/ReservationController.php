@@ -12,6 +12,7 @@ use App\Models\Reservation;
 use App\Models\Equipment;
 use App\Models\ReservationEquipments;
 use App\Models\ReservationDocuments;
+use App\Models\RemarksDocuments;
 use App\Models\ReservationDays;
 use App\Models\ReservationView;
 use Illuminate\Support\Facades\Auth;
@@ -466,6 +467,7 @@ class ReservationController extends Controller
         $reservationEquipments = ReservationEquipments::where('reservationID', $id)->get();
         $reservationDocuments = ReservationDocuments::where('reservationID', $id)->get();
         $reservationDays = ReservationDays::where('reservationID', $id)->get();
+        $remarksDocuments = RemarksDocuments::where('reservationID', $id)->get();
 
 
         $reservation->formattedStartDate = Carbon::parse($reservation->startDate)->format('m-d-Y');
@@ -473,7 +475,7 @@ class ReservationController extends Controller
         $reservation->formattedEndDate = Carbon::parse($reservation->endDate)->format('m-d-Y');
         $reservation->formattedEndTime = Carbon::parse($reservation->endTime)->format('h:i A');
 
-        return view('fic.viewReservation', compact('reservation', 'reservationEquipments', 'reservationDocuments', 'reservationDays', 'facilities'));
+        return view('fic.viewReservation', compact('reservation', 'reservationEquipments', 'reservationDocuments', 'reservationDays', 'facilities', 'remarksDocuments'));
     }
 
     public function updateReservationStatus(Request $request, $id, $status)
@@ -552,15 +554,15 @@ class ReservationController extends Controller
             }
         }
 
-        if ($request->hasFile('file') && count($request->file('file')) > 0) {
-            foreach ($request->file('file') as $file) {
+        if ($request->hasFile('remarksFiles') && count($request->file('remarksFiles')) > 0) {
+            foreach ($request->file('remarksFiles') as $file) {
                 if ($file->isValid()) {
                     $originalFileName = $file->getClientOriginalName();
                     $filePath = $file->storeAs('reservation_files', $originalFileName, 'public');
 
-                    ReservationDocuments::create([
+                    RemarksDocuments::create([
                         'reservationID' => $reservation->id,
-                        'file' => $filePath,
+                        'remarksFiles' => $filePath,
                     ]);
                 } else {
                     return redirect()->back()->withErrors(['file' => 'One or more files are not valid.']);
