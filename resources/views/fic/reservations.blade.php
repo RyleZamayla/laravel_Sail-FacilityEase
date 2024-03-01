@@ -89,7 +89,8 @@
                                                     {{ $reservation->event }}
                                                 </div>
 
-                                                <div class="font-normal text-gray-500">{{ $reservation->facility->facility }}</div>
+                                                <div class="font-normal text-gray-500">
+                                                    {{ $reservation->facility->facility }}</div>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
@@ -155,9 +156,10 @@
                                         <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $reservation->created_at }}
                                         </td>
-                                        <td class="flex justify-between lg:justify-end px-6 py-4">
-                                            <form
-                                                action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('showReservationById', ['universityID' => Auth::user()->universityID, 'id' => $reservation->id]) }}
+                                        <td class="px-6 py-4">
+                                            <div class="flex justify-between lg:justify-end">
+                                                <form
+                                                    action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('showReservationById', ['universityID' => Auth::user()->universityID, 'id' => $reservation->id]) }}
                                     @elseif (Auth::user()->user_role->where('roleID', 2)->count() > 0)
                                         {{ route('fic.showReservationById', ['universityID' => Auth::user()->universityID, 'id' => $reservation->id]) }}
                                     @elseif (Auth::user()->user_role->where('roleID', 3)->count() > 0)
@@ -168,14 +170,14 @@
                                         {{ route('user.showReservationById', ['universityID' => Auth::user()->universityID, 'id' => $reservation->id]) }}
                                     @elseif (Auth::user()->user_role->where('roleID', 6)->count() > 0)
                                         {{ route('user.showReservationById', ['universityID' => Auth::user()->universityID, 'id' => $reservation->id]) }} @endif">
-                                                <button type="submit"
-                                                    class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseBlue rounded-md hover:bg-indigo-600 transition ease-in-out duration-300"
-                                                    onclick="markAsViewed({{ $reservation->id }});">
-                                                    View
-                                                </button>
-                                            </form>
-                                            <form
-                                                action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('updateReservation', ['universityID' => Auth::User()->universityID, 'id' => $reservation->id]) }}
+                                                    <button type="submit"
+                                                        class="w-32 mx-2 px-4 py-2 leading-none text-white bg-facilityEaseBlue rounded-md hover:bg-indigo-600 transition ease-in-out duration-300"
+                                                        onclick="markAsViewed({{ $reservation->id }});">
+                                                        View
+                                                    </button>
+                                                </form>
+                                                <form
+                                                    action="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('updateReservation', ['universityID' => Auth::User()->universityID, 'id' => $reservation->id]) }}
                                     @elseif (Auth::user()->user_role->where('roleID', 2)->count() > 0)
                                     {{ route('fic.updateReservation', ['universityID' => Auth::User()->universityID, 'id' => $reservation->id]) }}
                                     @elseif (Auth::user()->user_role->where('roleID', 3)->count() > 0)
@@ -186,11 +188,12 @@
                                     {{ route('user.updateReservation', ['universityID' => Auth::User()->universityID, 'id' => $reservation->id]) }}
                                     @elseif (Auth::user()->user_role->where('roleID', 6)->count() > 0)
                                     {{ route('user.updateReservation', ['universityID' => Auth::User()->universityID, 'id' => $reservation->id]) }} @endif">
-                                                <button x-data=""
-                                                    class="w-32 px-4 py-2 leading-none text-white bg-facilityEaseMain rounded-md hover:bg-facilityEaseSecondary transition ease-in-out duration-300">
-                                                    Edit
-                                                </button>
-                                            </form>
+                                                    <button x-data=""
+                                                        class="w-32 px-4 py-2 leading-none text-white bg-facilityEaseMain rounded-md hover:bg-facilityEaseSecondary transition ease-in-out duration-300">
+                                                        Edit
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

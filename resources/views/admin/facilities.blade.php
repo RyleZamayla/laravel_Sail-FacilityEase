@@ -36,178 +36,6 @@
                             </div>
                         @endif
                     </div>
-
-                    <x-modal name="create-facility" focusable>
-                        <div class="w-full px-5 py-6">
-                            <form id="addFacilityForm" class="space-y-4 md:space-y-6" action="{{ route('addFacility') }}"
-                                method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <h2 class="text-lg font-medium text-gray-900">
-                                    {{ __('Add Facility Information') }}
-                                </h2>
-
-                                <p class="mt-1 text-sm text-gray-600">
-                                    {!! nl2br(__("Module is still under development, please tune in for more updates.\n")) !!}
-                                    {{ __('Please contact ') }} <a href=""
-                                        class="text-facilityEaseMain font-bold">FacilityEase@gmail.com</a>
-                                    {{ __(' for more inquiries, we will be sure to get back to you.') }}
-
-                                </p>
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="buildingID" class="mt-3 block text-base font-medium ">
-                                            Building Number:
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <select name="buildingID" id="building_dropdown"
-                                            class="cursor-pointer block mt-1 w-full" required="">
-                                            <option value="" hidden selected>Select Building</option>
-                                            @foreach ($buildings as $data)
-                                                <option value="{{ $data->id }}">
-                                                    {{ $data->buildingNumber }} - {{ $data->building }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('building'))
-                                            <div class="text-facilityEaseRed font-bold italic text-xs">
-                                                {{ $errors->first('building') }}</div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <!-- Floor -->
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="floors_dropwdown"
-                                            class="mt-3 block text-base font-medium ">Floor
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <select name="buildingFloorID" id="floors_dropdown"
-                                            class="cursor-pointer block mt-1 w-full" required="">
-                                            <option value="" hidden>Select Floor</option>
-                                        </select>
-                                        @if ($errors->has('buildingFloorID'))
-                                            <div class="text-facilityEaseRed font-bold italic text-xs">
-                                                {{ $errors->first('buildingFloorID') }}</div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="" class="mt-3 block text-base font-medium">
-                                            Facility In charge
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <select name="userRoleID" id="userRoleID" class="cursor-pointer block mt-1 w-full"
-                                            required="">
-                                            <option hidden>Select Facility in charge</option>
-                                            @foreach ($userFacilityInCharges as $facilityInCharge)
-                                                <option value="{{ $facilityInCharge->id }}">
-                                                    {{ $facilityInCharge->user->fName }}
-                                                    {{ $facilityInCharge->user->lName }}</option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('userRoleID'))
-                                            <div class="text-facilityEaseRed font-bold italic text-xs">
-                                                {{ $errors->first('userRoleID') }}</div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="buildingName"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            Facility Name
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <x-text-input type="text" name="facility" id="buildingName"
-                                            class="mt-1 block w-full" placeholder="Enter facility name" required="" />
-                                    </div>
-                                </div>
-
-                                <!-- Capacity -->
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="capacity"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            Capacity
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <x-text-input type="number" name="capacity" id="capacity"
-                                            class="mt-1 block w-full" placeholder="Enter capacity" required="" />
-                                    </div>
-                                </div>
-
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="noOfHours"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            Number of hours active within a day:
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <x-text-input type="number" name="noOfHours" id="noOfHours"
-                                            class="mt-1 block w-full" placeholder="Enter Number of hours" required="" />
-                                    </div>
-                                </div>
-
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="openTime"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            Opening Time:
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <x-text-input type="time" name="openTime" id="openTime"
-                                            class="mt-1 block w-full" placeholder="Enter Opening Time" required="" />
-                                    </div>
-                                </div>
-
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="closeTime"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            Closing Time:
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <x-text-input type="time" name="closeTime" id="closeTime"
-                                            class="mt-1 block w-full" placeholder="Enter Closing Time" required="" />
-                                    </div>
-                                </div>
-
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="maxDays"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            Maximum days allowed per reservation:
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <x-text-input type="number" name="maxDays" id="maxDays"
-                                            class="mt-1 block w-full" placeholder="Enter Maximum Days" required="" />
-                                    </div>
-                                </div>
-
-                                <div class="w-full">
-                                    <div class="">
-                                        <x-input-label for="maxHours"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                            Maximum hour/s allowed per reservation:
-                                            <span class="text-red-500">*</span>
-                                        </x-input-label>
-                                        <x-text-input type="number" name="maxHours" id="maxHours"
-                                            class="mt-1 block w-full" placeholder="Enter Maximum Hours" required="" />
-                                    </div>
-                                </div>
-
-                                <!-- Add Building Button -->
-                                <div class="mt-10">
-                                    <button type="submit"
-                                        class="hover:ring-2 hover:ring-facilityEaseGreen hover:ring-offset-2 flex w-full justify-center rounded-md bg-facilityEaseGreen text-white px-3 py-3 text-sm font-semibold hover:bg-facilityEaseGreen transition ease-in-out duration-300">ADD</button>
-                                </div>
-                            </form>
-                        </div>
-                    </x-modal>
-
                     <div
                         class="relative max-h-[520px] overflow-y-auto shadow-md sm:rounded-lg bg-gray-300 mt-2 scrollbar-none">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -327,11 +155,11 @@
 
                                         </td>
                                     </tr>
-                                    <x-modal name="edit-facility-{{ $facility->id }}" focusable>
-                                        <div class="w-full px-5">
+                                    <x-long-modal name="edit-facility-{{ $facility->id }}" focusable>
+                                        <div class="w-full p-6">
                                             <form
                                                 action="{{ route('edit-facility-data', ['facilityId' => $facility->id]) }}"
-                                                class="p-6 space-y-4 md:space-y-6 sm:p-8" method="post">
+                                                class="space-y-4 md:space-y-6" method="post">
                                                 @csrf
                                                 @method('patch')
                                                 <h2 class="text-lg font-medium text-gray-900">
@@ -347,112 +175,114 @@
                                                 </p>
 
                                                 <div class="mt-6">
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
-                                                            <x-input-label class="font-bold" for="office"
-                                                                :value="__('Facility Name')" />
+                                                    <div class="mt-3 flex-1 mx-1 flex">
+                                                        <!-- Left side -->
+                                                        <div class="flex-1 flex-col w-full">
+                                                            <div class="flex items-center">
+                                                                <x-input-label class="font-bold" for="office" :value="__('Facility Name')" />
+                                                                <span class="text-red-500 ml-1">*</span>
+                                                            </div>
+                                                            <x-text-input class="block w-full" type="text" id="office" name="facility" autocomplete="off" :value="$facility->facility">
+                                                            </x-text-input>
+                                                            <x-input-error :messages="$errors->get('facility')" class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                        </div>
+                                                        <!-- Right side -->
+                                                        <div class="flex-1 flex-col w-full ms-2">
+                                                            <div class="flex items-center">
+                                                                <x-input-label class="font-bold" for="building" :value="__('Building')" />
+                                                                <span class="text-red-500 ml-1">*</span>
+                                                            </div>
+                                                            <select name="buildingID" id="building" class="cursor-pointer block w-full">
+                                                                <option value="{{ $facility->building->id }}" hidden>
+                                                                    {{ $facility->building->buildingNumber }} - {{ $facility->building->building }}
+                                                                </option>
+                                                                @foreach ($buildings as $data)
+                                                                    <option value="{{ $data->id }}" {{ old('building') == $data->id ? 'selected' : '' }}>
+                                                                        {{ $data->buildingNumber }} - {{ $data->building }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <x-input-error :messages="$errors->get('buildingID')" class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="mt-3 flex-1 mx-1 flex">
+                                                    <!-- Left side -->
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="flex items-center">
+                                                            <x-input-label class="font-bold" for="floors"
+                                                                :value="__('Floor')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="text"
-                                                            id="office" name="facility" autocomplete="off"
-                                                            :value="$facility->facility">
-                                                        </x-text-input>
-                                                        <x-input-error :messages="$errors->get('facility')"
+                                                        <select name="buildingFloorID" id="floors"
+                                                            class="cursor-pointer block w-full">
+                                                            <option value="{{ $facility->building_floor->id }}" hidden>
+                                                                {{ getOrdinal($facility->building_floor->floorNumber) }} Floor
+                                                            </option>
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('buildingFloorID')"
+                                                            class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                    </div>
+                                                    <!-- Right side -->
+                                                    <div class="flex flex-col w-full ms-2">
+                                                        <div class="flex items-center">
+                                                            <x-input-label class="font-bold" for="userRoleID"
+                                                                :value="__('In charge')" />
+                                                            <span class="text-red-500 ml-1">*</span>
+                                                        </div>
+                                                        <select name="userRoleID" id="edit-userRoleID"
+                                                            class="block w-full">
+                                                            <option hidden>Select Facility incharge</option>
+                                                            @foreach ($userFacilityInCharges as $facilityInCharge)
+                                                                <option value="{{ $facilityInCharge->id }}"
+                                                                    {{ old('userRoleID', $facility->user_role->id) == $facilityInCharge->id ? 'selected' : '' }}>
+                                                                    {{ $facilityInCharge->user->fName }}
+                                                                    {{ $facilityInCharge->user->lName }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('buildingFloorID')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
                                                 </div>
-                                                <div class="mt-3 flex-1 mx-1">
-                                                    <div class="flex">
-                                                        <x-input-label class="font-bold" for="building"
-                                                            :value="__('Building')" />
-                                                        <span class="text-red-500 ml-1">*</span>
-                                                    </div>
-                                                    <select name="buildingID" id="building"
-                                                        class="cursor-pointer block mt-1 w-full">
-                                                        <option value="{{ $facility->building->id }}" hidden>
-                                                            {{ $facility->building->buildingNumber }} -
-                                                            {{ $facility->building->building }}</option>
-                                                        @foreach ($buildings as $data)
-                                                            <option value="{{ $data->id }}"
-                                                                {{ old('building') == $data->id ? 'selected' : '' }}>
-                                                                {{ $data->buildingNumber }} - {{ $data->building }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <x-input-error :messages="$errors->get('buildingID')"
-                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
-                                                </div>
-                                                <div class="mt-3 flex-1 mx-1">
-                                                    <div class="flex">
-                                                        <x-input-label class="font-bold" for="floors"
-                                                            :value="__('Floor')" />
-                                                        <span class="text-red-500 ml-1">*</span>
-                                                    </div>
-                                                    <select name="buildingFloorID" id="floors"
-                                                        class="cursor-pointer block mt-1 w-full">
-                                                        <option value="{{ $facility->building_floor->id }}" hidden>
-                                                            {{ getOrdinal($facility->building_floor->floorNumber) }} Floor
-                                                        </option>
-                                                    </select>
-                                                    <x-input-error :messages="$errors->get('buildingFloorID')"
-                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
-                                                </div>
-                                                <div class="mt-3 flex-1 mx-1">
-                                                    <div class="flex">
-                                                        <x-input-label class="font-bold" for="userRoleID"
-                                                            :value="__('In charge')" />
-                                                        <span class="text-red-500 ml-1">*</span>
-                                                    </div>
-                                                    <select name="userRoleID" id="edit-userRoleID"
-                                                        class="block mt-1 w-full">
-                                                        <option hidden>Select Facility incharge</option>
-                                                        @foreach ($userFacilityInCharges as $facilityInCharge)
-                                                            <option value="{{ $facilityInCharge->id }}"
-                                                                {{ old('userRoleID', $facility->user_role->id) == $facilityInCharge->id ? 'selected' : '' }}>
-                                                                {{ $facilityInCharge->user->fName }}
-                                                                {{ $facilityInCharge->user->lName }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <x-input-error :messages="$errors->get('buildingFloorID')"
-                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
-                                                </div>
-                                                <div class="mt-6">
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
+                                                <div class="mt-3 flex-1 mx-1 flex">
+                                                    <!-- Left side -->
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="flex items-center">
                                                             <x-input-label class="font-bold" for="capacity"
                                                                 :value="__('Capacity')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="number"
+                                                        <x-text-input class="block w-full" type="number"
                                                             name="capacity" autocomplete="off" :value="$facility->capacity">
                                                         </x-text-input>
                                                         <x-input-error :messages="$errors->get('capacity')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
-                                                </div>
-                                                <div class="mt-6">
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
+                                                    <!-- Right side -->
+                                                    <div class="flex flex-col w-full ms-2">
+                                                        <div class="flex items-center">
                                                             <x-input-label class="font-bold" for="noOfHours"
                                                                 :value="__('Number of hours active within a day:')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="number"
+                                                        <x-text-input class="block w-full" type="number"
                                                             name="noOfHours" autocomplete="off" :value="$facility->noOfHours">
                                                         </x-text-input>
                                                         <x-input-error :messages="$errors->get('capacity')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
                                                 </div>
-                                                <div class="mt-6">
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
+                                                <div class="mt-3 flex-1 mx-1 flex">
+                                                    <!-- Left side -->
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="flex items-center">
                                                             <x-input-label class="font-bold" for="openTime"
                                                                 :value="__('Opening Time:')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="time"
+                                                        <x-text-input class="block w-full" type="time"
                                                             name="openTime" autocomplete="off" :value="$facility->openTime
                                                                 ? Carbon\Carbon::parse($facility->openTime)->format(
                                                                     'H:i',
@@ -462,16 +292,14 @@
                                                         <x-input-error :messages="$errors->get('openTime')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
-                                                </div>
-
-                                                <div class="mt-6">
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
+                                                    <!-- Right side -->
+                                                    <div class="flex flex-col w-full ms-2">
+                                                        <div class="flex items-center">
                                                             <x-input-label class="font-bold" for="closeTime"
                                                                 :value="__('Closing Time:')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="time"
+                                                        <x-text-input class="block w-full" type="time"
                                                             name="closeTime" autocomplete="off" :value="$facility->closeTime
                                                                 ? Carbon\Carbon::parse($facility->closeTime)->format(
                                                                     'H:i',
@@ -482,40 +310,37 @@
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
                                                 </div>
-
-                                                <div class="mt-6">
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
+                                                <div class="mt-3 flex-1 mx-1 flex">
+                                                    <!-- Left side -->
+                                                    <div class="flex flex-col w-full">
+                                                        <div class="flex items-center">
                                                             <x-input-label class="font-bold" for="maxDays"
                                                                 :value="__('Maximum days allowed per reservation:')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="number"
+                                                        <x-text-input class="block w-full" type="number"
                                                             name="maxDays" autocomplete="off" :value="$facility->maxDays">
                                                         </x-text-input>
                                                         <x-input-error :messages="$errors->get('maxDays')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
-                                                </div>
-
-                                                <div class="mt-6">
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
+                                                    <!-- Right side -->
+                                                    <div class="flex flex-col w-full ms-2">
+                                                        <div class="flex items-center">
                                                             <x-input-label class="font-bold" for="maxHours"
                                                                 :value="__(
                                                                     'Maximum hour/s allowed per reservation:',
                                                                 )" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block mt-1 w-full" type="number"
+                                                        <x-text-input class="block w-full" type="number"
                                                             name="maxHours" autocomplete="off" :value="$facility->maxHours">
                                                         </x-text-input>
                                                         <x-input-error :messages="$errors->get('maxDays')"
                                                             class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
                                                 </div>
-
-                                                <div class="mt-9 mb-4 flex justify-end">
+                                                <div class="mt-9 flex justify-end">
                                                     <x-primary-button
                                                         class="bg-facilityEaseMain hover:bg-facilityEaseGreen ms-3 items-center justify-center py-2 w-1/2">
                                                         {{ __('Update Information') }}
@@ -523,8 +348,185 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </x-modal>
+                                    </x-long-modal>
                                 @endforeach
+                                <x-long-modal name="create-facility" focusable>
+                                    <div class="w-full p-6">
+                                        <form id="addFacilityForm" class="space-y-4 md:space-y-6" action="{{ route('addFacility') }}"
+                                            method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <h2 class="text-lg font-medium text-gray-900">
+                                                {{ __('Add Facility Information') }}
+                                            </h2>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                {!! nl2br(__("Module is still under development, please tune in for more updates.\n")) !!}
+                                                {{ __('Please contact ') }} <a href=""
+                                                    class="text-facilityEaseMain font-bold">FacilityEase@gmail.com</a>
+                                                {{ __(' for more inquiries, we will be sure to get back to you.') }}
+
+                                            </p>
+                                            <div class="mt-6">
+                                                <div class="mt-3 flex-1 mx-1 flex">
+                                                    <!-- Left side -->
+                                                    <div class="flex-1 flex-col w-full">
+                                                        <div class="flex items-center">
+                                                            <x-input-label class="font-bold" for="office" :value="__('Facility Name')" />
+                                                            <span class="text-red-500 ml-1">*</span>
+                                                        </div>
+                                                        <x-text-input class="block w-full" type="text" id="office" name="facility" autocomplete="off">
+                                                        </x-text-input>
+                                                        <x-input-error :messages="$errors->get('facility')" class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                    </div>
+                                                    <!-- Right side -->
+                                                    <div class="flex-1 flex-col w-full ms-2">
+                                                        <div class="flex items-center">
+                                                            <x-input-label class="font-bold" for="buildingID" :value="__('Building')" />
+                                                            <span class="text-red-500 ml-1">*</span>
+                                                        </div>
+                                                        <select name="buildingID" id="building_dropdown" class="cursor-pointer block w-full">
+                                                            <option value="" hidden>
+                                                                Select Building
+                                                            </option>
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('buildingID')" class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 flex-1 mx-1 flex">
+                                                <!-- Left side -->
+                                                <div class="flex flex-col w-full">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="floors"
+                                                            :value="__('Floor')" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <select name="buildingFloorID" id="floors_dropdown"
+                                                        class="cursor-pointer block w-full">
+                                                        <option value="" hidden>
+                                                            Select Floor
+                                                        </option>
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('buildingFloorID')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+                                                <!-- Right side -->
+                                                <div class="flex flex-col w-full ms-2">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="userRoleID"
+                                                            :value="__('In charge')" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <select name="userRoleID" id="userRoleID"
+                                                        class="block w-full">
+                                                        <option hidden>Select Facility incharge</option>
+                                                        @foreach ($userFacilityInCharges as $facilityInCharge)
+                                                            <option value="{{ $facilityInCharge->id }}">
+                                                                {{ $facilityInCharge->user->fName }}
+                                                                {{ $facilityInCharge->user->lName }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('buildingFloorID')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 flex-1 mx-1 flex">
+                                                <!-- Left side -->
+                                                <div class="flex flex-col w-full">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="capacity"
+                                                            :value="__('Capacity')" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <x-text-input class="block w-full" type="number"
+                                                        name="capacity" autocomplete="off">
+                                                    </x-text-input>
+                                                    <x-input-error :messages="$errors->get('capacity')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+                                                <!-- Right side -->
+                                                <div class="flex flex-col w-full ms-2">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="noOfHours"
+                                                            :value="__('Number of hours active within a day:')" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <x-text-input class="block w-full" type="number"
+                                                        name="noOfHours" autocomplete="off">
+                                                    </x-text-input>
+                                                    <x-input-error :messages="$errors->get('capacity')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 flex-1 mx-1 flex">
+                                                <!-- Left side -->
+                                                <div class="flex flex-col w-full">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="openTime"
+                                                            :value="__('Opening Time:')" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <x-text-input class="block w-full" type="time"
+                                                        name="openTime" autocomplete="off">
+                                                    </x-text-input>
+                                                    <x-input-error :messages="$errors->get('openTime')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+                                                <!-- Right side -->
+                                                <div class="flex flex-col w-full ms-2">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="closeTime"
+                                                            :value="__('Closing Time:')" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <x-text-input class="block w-full" type="time"
+                                                        name="closeTime" autocomplete="off">
+                                                    </x-text-input>
+                                                    <x-input-error :messages="$errors->get('closeTime')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+
+
+                                            </div>
+                                            <div class="mt-3 flex-1 mx-1 flex">
+                                                <!-- Left side -->
+                                                <div class="flex flex-col w-full">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="maxDays"
+                                                            :value="__('Maximum days allowed per reservation:')" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <x-text-input class="block w-full" type="number"
+                                                        name="maxDays" autocomplete="off">
+                                                    </x-text-input>
+                                                    <x-input-error :messages="$errors->get('maxDays')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+                                                <!-- Right side -->
+                                                <div class="flex flex-col w-full ms-2">
+                                                    <div class="flex items-center">
+                                                        <x-input-label class="font-bold" for="maxHours"
+                                                            :value="__(
+                                                                'Maximum hour/s allowed per reservation:',
+                                                            )" />
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </div>
+                                                    <x-text-input class="block w-full" type="number"
+                                                        name="maxHours" autocomplete="off">
+                                                    </x-text-input>
+                                                    <x-input-error :messages="$errors->get('maxDays')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+                                            </div>
+                                            <div class="mt-9 flex justify-end">
+                                                <x-primary-button
+                                                    class="bg-facilityEaseMain hover:bg-facilityEaseGreen ms-3 items-center justify-center py-2 w-1/2">
+                                                    {{ __('Add Facility') }}
+                                                </x-primary-button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </x-long-modal>
                             </tbody>
                         </table>
                     </div>
