@@ -24,10 +24,10 @@
             </div>
             <div style="display: flex; flex-direction: column;">
                 <p style="margin-bottom: 5px;"><b>Start time:</b> {{ $day->startTime->format('h:i A') }} </p>
-            </div> 
+            </div>
             <div style="display: flex; flex-direction: column;">
                 <p style="margin-bottom: 5px;"><b>End time:</b> {{ $day->endTime->format('h:i A') }} </p>
-            </div>  
+            </div>
         @endforeach
         <br>
         <div><b>Equipments held accountable:</b></div>
@@ -38,7 +38,7 @@
         <br>
         <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
         <a href="
-                    {{ route('fic.showReservationById', ['universityID' => $data->facility->user_role->user->universityID, 'id' => $data->id]) }}"
+                    {{ route('email.showReservationById', ['universityID' => $data->facility->user_role->user->universityID, 'id' => $data->id]) }}"
             target="_blank" class="custom-button">View details</a>
 
 </body>

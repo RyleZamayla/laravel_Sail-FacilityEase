@@ -41,6 +41,9 @@ Route::get('/downloadQRCode/{id}', [ReservationController::class, 'downloadQRCod
     ->middleware(['auth', 'verified'])
     ->name('downloadQRCode');
 
+Route::get('/viewReservation/{universityID}/{id}', [ReservationController::class, 'showReservationById'])
+    ->middleware(['auth', 'verified'])
+    ->name('email.showReservationById');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

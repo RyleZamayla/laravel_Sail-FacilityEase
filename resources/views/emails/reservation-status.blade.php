@@ -61,7 +61,7 @@
                 </div>
             @endif
             <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-                <a href="{{ route('user.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
 
 
@@ -77,7 +77,7 @@
                 Please submit the necessary documents needed for the {{ $reservation->event }} or follow the remarks
                 given by the facility-incharge.</p>
             <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-                <a href="{{ route('user.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>If you have clarifications regarding your reservation, you may contact
@@ -126,7 +126,7 @@
                 <br>
             </div>
             <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-                <a href="{{ route('user.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>Thank you!
@@ -169,7 +169,7 @@
                 <br>
             </div>
             <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-                <a href="{{ route('user.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>Thank you!
@@ -177,14 +177,14 @@
         </div>
         </div>
     @elseif($reservation->status === 'REVOKED' && $user->id === $reservation->userID)
-        <div class="container">
+        <div class="container p-10 ">
             <p>The reservation for <b>{{ $reservation->event }}</b> has been <b>REVOKED</b> with this message:</p>
             <br>
             <p><strong><i>{{ $reservation->reason }}</i></strong></p>
             <br>
 
             <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-                <a href="{{ route('user.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>Please contact the facility in-charge: <b>{{ $reservation->facility->user_role->user->name }}</b> through this
@@ -235,7 +235,7 @@
                 <br>
             </div>
             <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-                <a href="{{ route('user.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
 
         </div>
@@ -277,7 +277,7 @@
                 <br>
             </div>
             <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-                <a href="{{ route('user.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>Thank you!
@@ -326,7 +326,7 @@
             </div>
             <br>
             <p>Click this hyperlink inorder for you to be directly redirected to the reservation form: </p>
-                <a href="{{ route('fic.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
 
         </div>
@@ -344,7 +344,7 @@
             </p>
             <br>
             <p>Click this hyperlink inorder for you to be directly redirected to the reservation form: </p>
-                <a href="{{ route('fic.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>
@@ -388,7 +388,7 @@
                 <br>
             </div>
             <p>Click this hyperlink inorder for you to be directly redirected to the reservation form: </p>
-                <a href="{{ route('fic.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>Thank you!
@@ -435,7 +435,7 @@
                 <br>
             </div>
             <p>Click this hyperlink inorder for you to be directly redirected to the reservation form: </p>
-                <a href="{{ route('fic.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
             <p>Thank you!
@@ -452,7 +452,7 @@
                 <p><b>Contact Number:</b> {{ $reservation->user->cNumber }}</p>
 
             <p>Click this hyperlink inorder for you to be directly redirected to the reservation form: </p>
-                <a href="{{ route('fic.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
         </div>
@@ -462,7 +462,7 @@
             <p>The reservation for <b>{{ $reservation->event }}</b> has been <b>RESCHEDULED</b></p>
             <br>
             <p>Click this hyperlink inorder for you to be directly redirected to the reservation form: </p>
-                <a href="{{ route('fic.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
+                <a href="{{ route('email.showReservationById', ['universityID' => $reservation->facility->user_role->user->universityID, 'id' => $reservation->id]) }}"
                     target="_blank" class="custom-button">View details</a>
             <br>
         </div>

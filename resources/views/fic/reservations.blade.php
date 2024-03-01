@@ -56,10 +56,10 @@
                                 class="text-sm text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Reserved By
+                                        Event
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Facility
+                                        Reserved by
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Days
@@ -83,23 +83,23 @@
                                     <tr
                                         class="border-b {{ $index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-100 dark:bg-gray-700' }}">
                                         <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <div class="ps-3">
+                                            <div class="">
+                                                <div class="text-base font-semibold max-w-sm overflow-hidden overflow-ellipsis"
+                                                    id="facilityContainer">
+                                                    {{ $reservation->event }}
+                                                </div>
+
+                                                <div class="font-normal text-gray-500">{{ $reservation->facility->facility }}</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                            <div class="">
                                                 <div class="text-base font-semibold max-w-sm overflow-hidden overflow-ellipsis"
                                                     id="NameContainer">
                                                     {{ $reservation->user->fName }} {{ $reservation->user->lName }}
                                                 </div>
                                                 <div class="font-normal text-gray-500">
                                                     {{ $reservation->user_role->role->role }}</div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <div class="ps-3">
-                                                <div class="text-base font-semibold max-w-sm overflow-hidden overflow-ellipsis"
-                                                    id="facilityContainer">
-                                                    {{ $reservation->facility->facility }}
-                                                </div>
-
-                                                <div class="font-normal text-gray-500">{{ $reservation->event }}</div>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
