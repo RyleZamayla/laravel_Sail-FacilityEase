@@ -33,7 +33,7 @@
 
                 <div>
                     <x-primary-button
-                        class="w-full flex items-center justify-center bg-facilityEaseMain hover:bg-indigo-600 h-auto text-facilityEaseDarkGrey">
+                        class="w-full flex items-center justify-center bg-facilityEaseMain hover:bg-indigo-600 hover:text-white h-auto text-facilityEaseSecondary transition ease-in-out duration-300">
                         {{ __('Resend Verification Email') }}
                     </x-primary-button>
                 </div>
