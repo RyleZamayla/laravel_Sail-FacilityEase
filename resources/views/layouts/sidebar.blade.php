@@ -133,7 +133,11 @@
             <a href= "{{ route('showReservations', ['universityID' => Auth::User()->universityID]) }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
                 {{ request()->routeIs('showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
                 ">
+                {{ request()->routeIs('updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('updateReservationFormReschedule') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
@@ -148,6 +152,11 @@
             <a href= "{{ route('fic.showReservations', ['universityID' => Auth::User()->universityID]) }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
                 {{ request()->routeIs('fic.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('fic.reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
+                {{ request()->routeIs('fic.updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('fic.updateReservationFormReschedule') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -163,6 +172,10 @@
             <a href= "{{ route('user.showReservations', ['universityID' => Auth::User()->universityID]) }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
                 {{ request()->routeIs('user.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('user.reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('user.showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                ">
+                {{ request()->routeIs('user.updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
