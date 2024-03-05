@@ -189,8 +189,8 @@
                                                         :value="__('User Type')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
-                                                <select name="userType" id="userType"
-                                                    class="cursor-pointer block mt-1 w-full">
+                                                <select name="userType"
+                                                    class="cursor-pointer block mt-1 w-full userType">
                                                     <option value="{{ $data->user_role->first()->roleID }}" hidden>
                                                         @if ($data->user_role->first()->roleID == 6)
                                                             Student
@@ -222,8 +222,8 @@
                                                         :value="__('Campus')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
-                                                <select name="campus" id="campus"
-                                                    class="cursor-pointer block mt-1 w-full">
+                                                <select name="campus"
+                                                    class="cursor-pointer block mt-1 w-full campus">
                                                     <option value="{{ $data->campus }}" hidden>{{ $data->campus }}
                                                     </option>
                                                     @foreach ($activeCampusData as $campuses)
@@ -240,7 +240,7 @@
                                                 $data->user_role->first()->roleID == 6 ||
                                                     $data->user_role->first()->roleID == 5 ||
                                                     $data->user_role->first()->roleID == 4)
-                                                <div id="profile-academic-container">
+                                                <div class="profile-academic-container">
                                                     <!-- Colleges -->
                                                     <div class="mt-3 flex-1 mx-1">
                                                         <div class="flex">
@@ -248,8 +248,8 @@
                                                                 :value="__('College')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <select name="college" id="college"
-                                                            class="cursor-pointer block mt-1 w-full">
+                                                        <select name="college"
+                                                            class="cursor-pointer block mt-1 w-full college">
                                                             <option value="{{ optional($data->academic)->college }}"
                                                                 hidden>
                                                                 {{ optional($data->academic)->college }}</option>
@@ -265,8 +265,8 @@
                                                                 :value="__('Department')" />
                                                             <span class="text-red-500 text-opacity-0 ml-1">*</span>
                                                         </div>
-                                                        <select name="department" id="department"
-                                                            class="cursor-pointer block mt-1 w-full">
+                                                        <select name="department"
+                                                            class="cursor-pointer block mt-1 w-full department">
                                                             <option
                                                                 value="{{ optional($data->academic)->department }}"
                                                                 hidden>
@@ -277,7 +277,7 @@
                                                     </div>
 
                                                     @if ($data->user_role->first()->roleID == 5)
-                                                        <div id="profile-organization-container">
+                                                        <div class="profile-organization-container">
                                                             <!-- Organizations -->
                                                             <div class="mt-3 flex-1 mx-1">
                                                                 <div class="flex">
@@ -285,8 +285,8 @@
                                                                         for="organization" :value="__('Organization')" />
                                                                     <span class="text-red-500 ml-1">*</span>
                                                                 </div>
-                                                                <select name="organization" id="organization"
-                                                                    class="cursor-pointer block mt-1 w-full">
+                                                                <select name="organization"
+                                                                    class="cursor-pointer block mt-1 w-full organization">
                                                                     <option
                                                                         value="{{ optional($data->org_role->first())->orgName }}"
                                                                         hidden>
@@ -310,8 +310,8 @@
                                                                         :value="__('Position')" />
                                                                     <span class="text-red-500 ml-1">*</span>
                                                                 </div>
-                                                                <x-text-input id="orgPosition"
-                                                                    class="block mt-1 w-full" type="text"
+                                                                <x-text-input
+                                                                    class="block mt-1 w-full orgPosition" type="text"
                                                                     name="orgPosition" :value="optional($data->org_role->first())
                                                                         ->orgPosition"
                                                                     autocomplete="off" />
@@ -328,7 +328,7 @@
                                                 $data->user_role->first()->roleID == 3 ||
                                                     $data->user_role->first()->roleID == 2 ||
                                                     $data->user_role->first()->roleID == 1)
-                                                <div id="profile-nonacademic-container">
+                                                <div class="profile-nonacademic-container">
                                                     <!-- Offices -->
                                                     <div class="mt-3 flex-1 mx-1">
                                                         <div class="flex">
@@ -336,8 +336,8 @@
                                                                 :value="__('Office')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <select name="office" id="office"
-                                                            class="cursor-pointer block mt-1 w-full">
+                                                        <select name="office"
+                                                            class="cursor-pointer block mt-1 w-full office">
                                                             <option
                                                                 value="{{ optional($data->nonacademic)->office }}">
                                                                 {{ optional($data->nonacademic)->office }}</option>
@@ -352,8 +352,8 @@
                                                             <x-input-label class="font-bold" for="position"
                                                                 :value="__('Position')" />
                                                             <span class="text-red-500 text-opacity-0 ml-1">*</span>
-                                                        </div> <select name="position" id="position"
-                                                            class="cursor-pointer block mt-1 w-full">
+                                                        </div> <select name="position"
+                                                            class="cursor-pointer block mt-1 w-full position">
                                                             <option
                                                                 value="{{ optional($data->nonacademic)->position }}">
                                                                 {{ optional($data->nonacademic)->position }}</option>

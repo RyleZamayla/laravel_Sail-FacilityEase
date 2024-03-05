@@ -144,18 +144,18 @@
 
     <script>
         $(document).ready(function() {
-            $('#userType').select2({
+            $('.userType').select2({
                 theme: 'bootstrap-5',
                 minimumResultsForSearch: -1
             });
-            $('#campus').select2({
+            $('.campus').select2({
                 theme: 'bootstrap-5',
                 minimumResultsForSearch: -1
             });
 
-            $('#campus').on('change', function() {
+            $('.campus').on('change', function() {
                 var campusID = this.value;
-                $("#college").html('<option value="" hidden>Select College</option>');
+                $(".college").html('<option value="" hidden>Select College</option>');
                 $.ajax({
                     url: "{{ url('api/getColleges') }}",
                     type: "POST",
@@ -165,7 +165,7 @@
                     dataType: 'json',
                     success: function(result) {
                         $.each(result, function(key, value) {
-                            $("#college").append('<option value="' + value.id + '">' +
+                            $(".college").append('<option value="' + value.id + '">' +
                                 value.college + '</option>');
                         });
                     }
@@ -173,9 +173,9 @@
             });
 
 
-            $('#campus').on('change', function() {
+            $('.campus').on('change', function() {
                 var campusID = this.value;
-                $("#office").html('<option value="" hidden>Select Office</option>');
+                $(".office").html('<option value="" hidden>Select Office</option>');
                 $.ajax({
                     url: "{{ url('api/getOffices') }}",
                     type: "POST",
@@ -185,7 +185,7 @@
                     dataType: 'json',
                     success: function(result) {
                         $.each(result, function(key, value) {
-                            $("#office").append(
+                            $(".office").append(
                                 '<option value="' + value
                                 .id + '">' + value.office +
                                 '</option>');
@@ -196,7 +196,7 @@
                 });
             });
 
-            $('#userType').change(function() {
+            $('.userType').change(function() {
                 var userType = this.value;
                 var studentLeader;
 
@@ -204,37 +204,37 @@
                     studentLeader = true;
                 }
 
-                $('#academic-container').hide();
-                $('#nonacademic-container').hide();
-                $('#organization-container').hide();
+                $('.academic-container').hide();
+                $('.nonacademic-container').hide();
+                $('.organization-container').hide();
 
                 if (userType == 6 || userType == 4 || userType == 5) {
-                    $('#college').select2({
+                    $('.college').select2({
                         theme: 'bootstrap-5'
                     });
 
-                    $('#department').select2({
+                    $('.department').select2({
                         theme: 'bootstrap-5'
                     });
 
-                    $('#academic-container').show();
-                    $('#nonacademic-container').hide();
-                    $('#organization-container').hide();
+                    $('.academic-container').show();
+                    $('.nonacademic-container').hide();
+                    $('.organization-container').hide();
 
                     if (studentLeader == true) {
-                        $('#organization').select2({
+                        $('.organization').select2({
                             theme: 'bootstrap-5'
                         });
 
-                        $('#organization-container').show();
+                        $('.organization-container').show();
                     }
 
 
 
 
-                    $('#college').on('change', function() {
+                    $('.college').on('change', function() {
                         var departmentID = this.value;
-                        $("#department").html('<option value="" hidden>Select Department</option>');
+                        $(".department").html('<option value="" hidden>Select Department</option>');
                         $.ajax({
                             url: "{{ url('api/getDepartments') }}",
                             type: "POST",
@@ -244,7 +244,7 @@
                             dataType: 'json',
                             success: function(result) {
                                 $.each(result, function(key, value) {
-                                    $("#department").append('<option value="' +
+                                    $(".department").append('<option value="' +
                                         value
                                         .id + '">' + value.department +
                                         '</option>');
@@ -267,7 +267,7 @@
                             dataType: 'json',
                             success: function(result) {
                                 $.each(result, function(key, value) {
-                                    $("#college").append('<option value="' + value.id +
+                                    $(".college").append('<option value="' + value.id +
                                         '" ' + (
                                             oldCollegeID == value.id ? 'selected' :
                                             '') + '>' +
@@ -286,7 +286,7 @@
                                 dataType: 'json',
                                 success: function(result) {
                                     $.each(result, function(key, value) {
-                                        $("#department").append('<option value="' +
+                                        $(".department").append('<option value="' +
                                             value.id + '" ' + (
                                                 oldDepartmentID == value.id ?
                                                 'selected' : '') +
@@ -298,21 +298,21 @@
                     }
                 }
                 if (userType == 3 || userType == 2 || userType == 1) {
-                    $('#office').select2({
+                    $('.office').select2({
                         theme: 'bootstrap-5'
                     });
 
-                    $('#position').select2({
+                    $('.position').select2({
                         theme: 'bootstrap-5'
                     });
 
-                    $('#academic-container').hide();
-                    $('#nonacademic-container').show();
-                    $('#organization-container').hide();
+                    $('.academic-container').hide();
+                    $('.nonacademic-container').show();
+                    $('.organization-container').hide();
 
-                    $('#office').on('change', function() {
+                    $('.office').on('change', function() {
                         var positionID = this.value;
-                        $("#position").html('<option value="" hidden>Select Position</option>');
+                        $(".position").html('<option value="" hidden>Select Position</option>');
                         $.ajax({
                             url: "{{ url('api/getPositions') }}",
                             type: "POST",
@@ -322,7 +322,7 @@
                             dataType: 'json',
                             success: function(result) {
                                 $.each(result, function(key, value) {
-                                    $("#position").append(
+                                    $(".position").append(
                                         '<option value="' + value
                                         .id + '">' + value.position +
                                         '</option>');
@@ -345,7 +345,7 @@
                             dataType: 'json',
                             success: function(result) {
                                 $.each(result, function(key, value) {
-                                    $("#office").append('<option value="' + value.id +
+                                    $(".office").append('<option value="' + value.id +
                                         '" ' + (
                                             oldOfficeID == value.id ? 'selected' :
                                             '') + '>' +
@@ -364,7 +364,7 @@
                                 dataType: 'json',
                                 success: function(result) {
                                     $.each(result, function(key, value) {
-                                        $("#position").append('<option value="' +
+                                        $(".position").append('<option value="' +
                                             value.id + '" ' + (
                                                 oldPositionID == value.id ?
                                                 'selected' : '') +
