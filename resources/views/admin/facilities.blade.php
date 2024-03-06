@@ -242,8 +242,11 @@
                                                                 </option>
                                                             @endforeach
                                                         </select>
-                                                        <x-input-error :messages="$errors->get('buildingFloorID')"
-                                                            class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                        @error('userRoleID')
+                                                            <p class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1">
+                                                            {{ $message }}
+                                                        </p>
+                                                    @enderror
                                                     </div>
                                                 </div>
                                                 <div class="mt-3 flex-1 mx-1 flex">
