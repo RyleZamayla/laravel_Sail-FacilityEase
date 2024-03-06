@@ -114,8 +114,8 @@
                                                         Facility:
                                                         <span class="text-red-500">*</span>
                                                     </x-input-label>
-                                                    <select name="facilityID" id="facility_dropdown"
-                                                        class="cursor-pointer block mt-1 w-full" required="">
+                                                    <select name="facilityID"
+                                                        class="cursor-pointer block mt-1 w-full facility_dropdown" required="">
                                                         <option value="" hidden selected>Select Facility</option>
                                                         @foreach ($facilities as $facility)
                                                             <option value="{{ $facility->id }}">
@@ -259,8 +259,8 @@
                                                                 :value="__('Facility')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <select name="facilityID" id="facilities"
-                                                            class="block mt-1 w-full">
+                                                        <select name="facilityID"
+                                                            class="block mt-1 w-full facilities">
                                                             @foreach ($facilities as $facility)
                                                                 <option value="{{ $facility->id }}"
                                                                     {{ old('facilityID', $equipment->facility->id) == $facility->id ? 'selected' : '' }}>
@@ -351,10 +351,10 @@
 
     <script>
         $(document).ready(function() {
-            $('#facility_dropdown').select2({
+            $('.facility_dropdown').select2({
                 theme: 'bootstrap-5'
             });
-            $('#facilities').select2({
+            $('.facilities').select2({
                 theme: 'bootstrap-5'
             });
         });
