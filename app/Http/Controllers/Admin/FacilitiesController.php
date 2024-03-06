@@ -90,6 +90,22 @@ class FacilitiesController extends Controller
 
     public function editFacilityData(Request $request, $facilityId)
     {
+        $request->validate([
+            'facility' => 'required',
+            'buildingID' => 'required',
+            'buildingFloorID' => 'required',
+            'userRoleID' => 'required|numeric', // Assuming userRoleID should be a numeric value
+            'capacity' => 'required',
+            'noOfHours' => 'required',
+            'openTime' => 'required',
+            'closeTime' => 'required',
+            'maxDays' => 'required',
+            'maxHours' => 'required',
+        ], [
+            'userRoleID.required' => 'Please select a Facility incharge.',
+            'userRoleID.numeric' => 'Invalid data type for Facility incharge.',
+        ]);
+        
         $facilities = Facility::find($facilityId);
 
         $facilities->update([
