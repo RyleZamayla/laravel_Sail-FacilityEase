@@ -48,6 +48,9 @@
                                     <th scope="col" class="px-6 py-3">
                                         Location
                                     </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Capacity
+                                    </th>
                                     @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 ||
                                             Auth::User()->User_Role->where('roleID', 2)->count() > 0)
                                         <th scope="col" class="px-6 py-3">
@@ -66,8 +69,7 @@
                                         <td
                                             class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white max-w-sm overflow-hidden overflow-ellipsis">
                                             <div class="">
-                                                <div class="text-base font-semibold max-w-sm overflow-hidden overflow-ellipsis"
-                                                    id="facilityContainer">
+                                                <div class="text-base font-semibold max-w-sm overflow-hidden overflow-ellipsis facilityContainer">
                                                     {{ $facility->facility }}
                                                 </div>
                                                 <div class="font-normal text-gray-500">
@@ -82,6 +84,10 @@
                                             Bldg. {{ $facility->building->buildingNumber ?? 'N/A' }},
                                             {{ $facility->building->building ?? 'N/A' }} –
                                             {{ getOrdinal($facility->building_floor->floorNumber ?? 'N/A') }} Floor
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white max-w-sm overflow-hidden overflow-ellipsis">
+                                            {{ $facility->capacity }}
                                         </td>
                                         @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0 ||
                                                 Auth::User()->User_Role->where('roleID', 2)->count() > 0)
@@ -179,10 +185,10 @@
                                                         <!-- Left side -->
                                                         <div class="flex-1 flex-col w-full">
                                                             <div class="flex items-center">
-                                                                <x-input-label class="font-bold" for="office" :value="__('Facility Name')" />
+                                                                <x-input-label class="font-bold" :value="__('Facility Name')" />
                                                                 <span class="text-red-500 ml-1">*</span>
                                                             </div>
-                                                            <x-text-input class="block w-full" type="text" id="office" name="facility" autocomplete="off" :value="$facility->facility">
+                                                            <x-text-input class="block w-full" type="text" name="facility" autocomplete="off" :value="$facility->facility">
                                                             </x-text-input>
                                                             <x-input-error :messages="$errors->get('facility')" class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                         </div>
@@ -192,7 +198,7 @@
                                                                 <x-input-label class="font-bold" for="building" :value="__('Building')" />
                                                                 <span class="text-red-500 ml-1">*</span>
                                                             </div>
-                                                            <select name="buildingID" id="building" class="cursor-pointer block w-full">
+                                                            <select name="buildingID" class="cursor-pointer block w-full building">
                                                                 <option value="{{ $facility->building->id }}" hidden>
                                                                     {{ $facility->building->buildingNumber }} - {{ $facility->building->building }}
                                                                 </option>
@@ -215,8 +221,8 @@
                                                                 :value="__('Floor')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <select name="buildingFloorID" id="floors"
-                                                            class="cursor-pointer block w-full">
+                                                        <select name="buildingFloorID"
+                                                            class="cursor-pointer block w-full floors">
                                                             <option value="{{ $facility->building_floor->id }}" hidden>
                                                                 {{ getOrdinal($facility->building_floor->floorNumber) }} Floor
                                                             </option>
@@ -231,8 +237,8 @@
                                                                 :value="__('In charge')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <select name="userRoleID" id="edit-userRoleID"
-                                                            class="block w-full">
+                                                        <select name="userRoleID"
+                                                            class="block w-full edit-userRoleID">
                                                             <option hidden>Select Facility incharge</option>
                                                             @foreach ($userFacilityInCharges as $facilityInCharge)
                                                                 <option value="{{ $facilityInCharge->id }}"
@@ -374,10 +380,10 @@
                                                     <!-- Left side -->
                                                     <div class="flex-1 flex-col w-full">
                                                         <div class="flex items-center">
-                                                            <x-input-label class="font-bold" for="office" :value="__('Facility Name')" />
+                                                            <x-input-label class="font-bold" :value="__('Facility Name')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <x-text-input class="block w-full" type="text" id="office" name="facility" autocomplete="off">
+                                                        <x-text-input class="block w-full" type="text" name="facility" autocomplete="off">
                                                         </x-text-input>
                                                         <x-input-error :messages="$errors->get('facility')" class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
@@ -387,7 +393,7 @@
                                                             <x-input-label class="font-bold" for="buildingID" :value="__('Building')" />
                                                             <span class="text-red-500 ml-1">*</span>
                                                         </div>
-                                                        <select name="buildingID" id="building_dropdown" class="cursor-pointer block w-full">
+                                                        <select name="buildingID" class="cursor-pointer block w-full building_dropdown">
                                                             <option value="" hidden>
                                                                 Select Building
                                                             </option>
@@ -404,8 +410,8 @@
                                                             :value="__('Floor')" />
                                                         <span class="text-red-500 ml-1">*</span>
                                                     </div>
-                                                    <select name="buildingFloorID" id="floors_dropdown"
-                                                        class="cursor-pointer block w-full">
+                                                    <select name="buildingFloorID"
+                                                        class="cursor-pointer block w-full floors_dropdown">
                                                         <option value="" hidden>
                                                             Select Floor
                                                         </option>
@@ -420,8 +426,8 @@
                                                             :value="__('In charge')" />
                                                         <span class="text-red-500 ml-1">*</span>
                                                     </div>
-                                                    <select name="userRoleID" id="userRoleID"
-                                                        class="block w-full">
+                                                    <select name="userRoleID"
+                                                        class="block w-full userRoleID">
                                                         <option hidden>Select Facility incharge</option>
                                                         @foreach ($userFacilityInCharges as $facilityInCharge)
                                                             <option value="{{ $facilityInCharge->id }}">
@@ -551,22 +557,22 @@
 
     <script>
         $(document).ready(function() {
-            $('#building_dropdown').select2({
+            $('.building_dropdown').select2({
                 theme: 'bootstrap-5'
             });
-            $('#floors_dropdown').select2({
+            $('.floors_dropdown').select2({
                 theme: 'bootstrap-5'
             });
-            $('#userRoleID').select2({
+            $('.userRoleID').select2({
                 theme: 'bootstrap-5'
             });
-            $('#edit-userRoleID').select2({
+            $('.edit-userRoleID').select2({
                 theme: 'bootstrap-5'
             });
 
-            $('#building_dropdown').on('change', function() {
+            $('.building_dropdown').on('change', function() {
                 var buildingID = this.value;
-                $("#floors_dropdown").html('');
+                $(".floors_dropdown").html('');
                 $.ajax({
                     url: "{{ url('api/getFloors') }}",
                     type: "POST",
@@ -577,11 +583,11 @@
                     success: function(result) {
                         $.each(result, function(key, value) {
                             var ordinalFloor = getOrdinal(value.floorNumber) + ' Floor';
-                            $("#floors_dropdown").append('<option value="' + value.id +
+                            $(".floors_dropdown").append('<option value="' + value.id +
                                 '">' + ordinalFloor + '</option>');
                         });
                         // Trigger Select2 to refresh the dropdown
-                        $('#floors_dropdown').trigger('change.select2');
+                        $('.floors_dropdown').trigger('change.select2');
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
@@ -590,19 +596,19 @@
                 });
             });
 
-            $('#building').select2({
+            $('.building').select2({
                 theme: 'bootstrap-5'
             });
-            $('#floors').select2({
+            $('.floors').select2({
                 theme: 'bootstrap-5'
             });
-            $('#facilities').select2({
+            $('.facilities').select2({
                 theme: 'bootstrap-5'
             });
 
-            $('#building').on('change', function() {
+            $('.building').on('change', function() {
                 var buildingID = this.value;
-                $("#floors").html('<option value="" hidden>Select Floors</option>');
+                $(".floors").html('<option value="" hidden>Select Floors</option>');
                 $.ajax({
                     url: "{{ url('api/getFloors') }}",
                     type: "POST",
@@ -613,7 +619,7 @@
                     success: function(result) {
                         $.each(result, function(key, value) {
                             var ordinalFloor = getOrdinal(value.floorNumber) + ' Floor';
-                            $("#floors").append('<option value="' + value.id + '">' +
+                            $(".floors").append('<option value="' + value.id + '">' +
                                 ordinalFloor + '</option>');
                         });
                     }

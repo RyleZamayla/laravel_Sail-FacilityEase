@@ -125,7 +125,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <x-modal name="edit-user-{{ $data->id }}" focusable class="max-w-md">
+                        <x-long-modal name="edit-user-{{ $data->id }}" focusable class="max-w-md">
                             <div class="w-full px-5 pt-5">
                                 <div class="max-h-[44rem] overflow-y-auto scrollbar-none">
                                     <form action="{{ route('edit-user-data', ['userId' => $data->id]) }}"
@@ -146,51 +146,52 @@
                                         </p>
 
 
-                                        <div class="mt-6">
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
-                                                    <x-input-label class="font-bold" for="fName"
-                                                        :value="__('First name')" />
+                                        <div class="mt-6 flex-1 mx-1 flex">
+                                            <div class="flex flex-col w-full">
+                                                <div class="flex items-center">
+                                                    <x-input-label class="font-bold" for="fName" :value="__('First name')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
-                                                <x-text-input class="block mt-1 w-full" type="text" name="fName"
+                                                <x-text-input class="block w-full" type="text" name="fName"
                                                     autocomplete="off" :value="$data->fName ?? ''">
                                                 </x-text-input>
                                                 <x-input-error :messages="$errors->get('fName')"
                                                     class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                             </div>
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
-                                                    <x-input-label class="font-bold" for="mName"
-                                                        :value="__('Middle name')" />
+                                            <div class="flex flex-col w-full ms-2">
+                                                <div class="flex items-center">
+                                                    <x-input-label class="font-bold" for="mName" :value="__('Middle name')" />
                                                     <span class="text-red-500 ml-1 opacity-0">*</span>
                                                 </div>
-                                                <x-text-input class="block mt-1 w-full" type="text" name="mName"
+                                                <x-text-input class="block w-full" type="text" name="mName"
                                                     autocomplete="off" :value="$data->mName ?? ''">
                                                 </x-text-input>
                                                 <x-input-error :messages="$errors->get('mName')"
                                                     class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                             </div>
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
-                                                    <x-input-label class="font-bold" for="lName"
-                                                        :value="__('Last name')" />
+                                        </div>
+
+
+                                        <div class="mt-3 flex-1 mx-1 flex">
+                                            <div class="flex flex-col w-full">
+                                                <div class="flex items-center">
+                                                    <x-input-label class="font-bold" for="lName" :value="__('Last name')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
-                                                <x-text-input class="block mt-1 w-full" type="text" name="lName"
+                                                <x-text-input class="block w-full" type="text" name="lName"
                                                     autocomplete="off" :value="$data->lName ?? ''">
                                                 </x-text-input>
                                                 <x-input-error :messages="$errors->get('lName')"
                                                     class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                             </div>
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
+                                            <div class="flex flex-col w-full ms-2">
+                                                <div class="flex items-center">
                                                     <x-input-label class="font-bold" for="cNumber"
                                                         :value="__('User Type')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
                                                 <select name="userType"
-                                                    class="cursor-pointer block mt-1 w-full userType">
+                                                    class="cursor-pointer block  w-full userType">
                                                     <option value="{{ $data->user_role->first()->roleID }}" hidden>
                                                         @if ($data->user_role->first()->roleID == 6)
                                                             Student
@@ -216,202 +217,200 @@
                                                 <x-input-error :messages="$errors->get('userType')"
                                                     class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                             </div>
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
-                                                    <x-input-label class="font-bold" for="campus"
-                                                        :value="__('Campus')" />
-                                                    <span class="text-red-500 ml-1">*</span>
-                                                </div>
-                                                <select name="campus"
-                                                    class="cursor-pointer block mt-1 w-full campus">
-                                                    <option value="{{ $data->campus }}" hidden>{{ $data->campus }}
-                                                    </option>
-                                                    @foreach ($activeCampusData as $campuses)
-                                                        <option value="{{ $campuses->id }}"
-                                                            {{ old('campus') == $campuses->id ? 'selected' : '' }}>
-                                                            {{ $campuses->campus }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                <x-input-error :messages="$errors->get('campus')"
-                                                    class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                        </div>
+                                        <div class="mt-3 flex-1 mx-1">
+                                            <div class="flex">
+                                                <x-input-label class="font-bold" for="campus" :value="__('Campus')" />
+                                                <span class="text-red-500 ml-1">*</span>
                                             </div>
-                                            @if (
-                                                $data->user_role->first()->roleID == 6 ||
-                                                    $data->user_role->first()->roleID == 5 ||
-                                                    $data->user_role->first()->roleID == 4)
-                                                <div class="profile-academic-container">
-                                                    <!-- Colleges -->
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
-                                                            <x-input-label class="font-bold" for="college"
-                                                                :value="__('College')" />
-                                                            <span class="text-red-500 ml-1">*</span>
-                                                        </div>
-                                                        <select name="college"
-                                                            class="cursor-pointer block mt-1 w-full college">
-                                                            <option value="{{ optional($data->academic)->college }}"
-                                                                hidden>
-                                                                {{ optional($data->academic)->college }}</option>
-                                                        </select>
-                                                        <x-input-error :messages="$errors->get('college')"
-                                                            class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                            <select name="campus" class="cursor-pointer block  w-full campus">
+                                                <option value="{{ $data->campus }}" hidden>{{ $data->campus }}
+                                                </option>
+                                                @foreach ($activeCampusData as $campuses)
+                                                    <option value="{{ $campuses->id }}"
+                                                        {{ old('campus') == $campuses->id ? 'selected' : '' }}>
+                                                        {{ $campuses->campus }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('campus')"
+                                                class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                        </div>
+                                        @if (
+                                            $data->user_role->first()->roleID == 6 ||
+                                                $data->user_role->first()->roleID == 5 ||
+                                                $data->user_role->first()->roleID == 4)
+                                            <div class="profile-academic-container">
+                                                <!-- Colleges -->
+                                                <div class="mt-3 flex-1 mx-1">
+                                                    <div class="flex">
+                                                        <x-input-label class="font-bold" for="college"
+                                                            :value="__('College')" />
+                                                        <span class="text-red-500 ml-1">*</span>
                                                     </div>
+                                                    <select name="college"
+                                                        class="cursor-pointer block  w-full college">
+                                                        <option value="{{ optional($data->academic)->college }}"
+                                                            hidden>
+                                                            {{ optional($data->academic)->college }}</option>
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('college')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
 
-                                                    <!-- Departments -->
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
-                                                            <x-input-label class="font-bold" for="department"
-                                                                :value="__('Department')" />
-                                                            <span class="text-red-500 text-opacity-0 ml-1">*</span>
-                                                        </div>
-                                                        <select name="department"
-                                                            class="cursor-pointer block mt-1 w-full department">
-                                                            <option
-                                                                value="{{ optional($data->academic)->department }}"
-                                                                hidden>
-                                                                {{ optional($data->academic)->department }}</option>
-                                                        </select>
-                                                        <x-input-error :messages="$errors->get('department')"
-                                                            class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                <!-- Departments -->
+                                                <div class="mt-3 flex-1 mx-1">
+                                                    <div class="flex">
+                                                        <x-input-label class="font-bold" for="department"
+                                                            :value="__('Department')" />
+                                                        <span class="text-red-500 text-opacity-0 ml-1">*</span>
                                                     </div>
+                                                    <select name="department"
+                                                        class="cursor-pointer block  w-full department">
+                                                        <option value="{{ optional($data->academic)->department }}"
+                                                            hidden>
+                                                            {{ optional($data->academic)->department }}</option>
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('department')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
 
-                                                    @if ($data->user_role->first()->roleID == 5)
-                                                        <div class="profile-organization-container">
-                                                            <!-- Organizations -->
-                                                            <div class="mt-3 flex-1 mx-1">
-                                                                <div class="flex">
-                                                                    <x-input-label class="font-bold"
-                                                                        for="organization" :value="__('Organization')" />
-                                                                    <span class="text-red-500 ml-1">*</span>
-                                                                </div>
-                                                                <select name="organization"
-                                                                    class="cursor-pointer block mt-1 w-full organization">
-                                                                    <option
-                                                                        value="{{ optional($data->org_role->first())->orgName }}"
-                                                                        hidden>
-                                                                        {{ optional($data->org_role->first())->orgName }}
+                                                @if ($data->user_role->first()->roleID == 5)
+                                                    <div class="profile-organization-container">
+                                                        <!-- Organizations -->
+                                                        <div class="mt-3 flex-1 mx-1">
+                                                            <div class="flex">
+                                                                <x-input-label class="font-bold" for="organization"
+                                                                    :value="__('Organization')" />
+                                                                <span class="text-red-500 ml-1">*</span>
+                                                            </div>
+                                                            <select name="organization"
+                                                                class="cursor-pointer block  w-full organization">
+                                                                <option
+                                                                    value="{{ optional($data->org_role->first())->orgName }}"
+                                                                    hidden>
+                                                                    {{ optional($data->org_role->first())->orgName }}
+                                                                </option>
+                                                                @foreach ($activeOrganizationData as $org)
+                                                                    <option value="{{ $org->id }}"
+                                                                        {{ old('organization') == $org->id ? 'selected' : '' }}>
+                                                                        {{ $org->orgName }}
                                                                     </option>
-                                                                    @foreach ($activeOrganizationData as $org)
-                                                                        <option value="{{ $org->id }}"
-                                                                            {{ old('organization') == $org->id ? 'selected' : '' }}>
-                                                                            {{ $org->orgName }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <x-input-error :messages="$errors->get('organization')"
-                                                                    class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
-                                                            </div>
-
-                                                            <!-- Org Position -->
-                                                            <div class="mt-3 flex-1 mx-1">
-                                                                <div class="flex">
-                                                                    <x-input-label class="font-bold" for="orgPosition"
-                                                                        :value="__('Position')" />
-                                                                    <span class="text-red-500 ml-1">*</span>
-                                                                </div>
-                                                                <x-text-input
-                                                                    class="block mt-1 w-full orgPosition" type="text"
-                                                                    name="orgPosition" :value="optional($data->org_role->first())
-                                                                        ->orgPosition"
-                                                                    autocomplete="off" />
-
-                                                                <x-input-error :messages="$errors->get('orgPosition')"
-                                                                    class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
-                                                            </div>
+                                                                @endforeach
+                                                            </select>
+                                                            <x-input-error :messages="$errors->get('organization')"
+                                                                class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                         </div>
-                                                    @endif
 
-                                                </div>
-                                            @endif
-                                            @if (
-                                                $data->user_role->first()->roleID == 3 ||
-                                                    $data->user_role->first()->roleID == 2 ||
-                                                    $data->user_role->first()->roleID == 1)
-                                                <div class="profile-nonacademic-container">
-                                                    <!-- Offices -->
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
-                                                            <x-input-label class="font-bold" for="office"
-                                                                :value="__('Office')" />
-                                                            <span class="text-red-500 ml-1">*</span>
+                                                        <!-- Org Position -->
+                                                        <div class="mt-3 flex-1 mx-1">
+                                                            <div class="flex">
+                                                                <x-input-label class="font-bold" for="orgPosition"
+                                                                    :value="__('Position')" />
+                                                                <span class="text-red-500 ml-1">*</span>
+                                                            </div>
+                                                            <x-text-input class="block  w-full orgPosition"
+                                                                type="text" name="orgPosition" :value="optional($data->org_role->first())
+                                                                    ->orgPosition"
+                                                                autocomplete="off" />
+
+                                                            <x-input-error :messages="$errors->get('orgPosition')"
+                                                                class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                         </div>
-                                                        <select name="office"
-                                                            class="cursor-pointer block mt-1 w-full office">
-                                                            <option
-                                                                value="{{ optional($data->nonacademic)->office }}">
-                                                                {{ optional($data->nonacademic)->office }}</option>
-                                                        </select>
-                                                        <x-input-error :messages="$errors->get('office')"
-                                                            class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                     </div>
+                                                @endif
 
-                                                    <!-- Positions -->
-                                                    <div class="mt-3 flex-1 mx-1">
-                                                        <div class="flex">
-                                                            <x-input-label class="font-bold" for="position"
-                                                                :value="__('Position')" />
-                                                            <span class="text-red-500 text-opacity-0 ml-1">*</span>
-                                                        </div> <select name="position"
-                                                            class="cursor-pointer block mt-1 w-full position">
-                                                            <option
-                                                                value="{{ optional($data->nonacademic)->position }}">
-                                                                {{ optional($data->nonacademic)->position }}</option>
-                                                        </select>
-                                                        <x-input-error :messages="$errors->get('position')"
-                                                            class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                            </div>
+                                        @endif
+                                        @if (
+                                            $data->user_role->first()->roleID == 3 ||
+                                                $data->user_role->first()->roleID == 2 ||
+                                                $data->user_role->first()->roleID == 1)
+                                            <div class="profile-nonacademic-container">
+                                                <!-- Offices -->
+                                                <div class="mt-3 flex-1 mx-1">
+                                                    <div class="flex">
+                                                        <x-input-label class="font-bold" for="office"
+                                                            :value="__('Office')" />
+                                                        <span class="text-red-500 ml-1">*</span>
                                                     </div>
-
+                                                    <select name="office"
+                                                        class="cursor-pointer block  w-full office">
+                                                        <option value="{{ optional($data->nonacademic)->office }}">
+                                                            {{ optional($data->nonacademic)->office }}</option>
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('office')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                                 </div>
-                                            @endif
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
+
+                                                <!-- Positions -->
+                                                <div class="mt-3 flex-1 mx-1">
+                                                    <div class="flex">
+                                                        <x-input-label class="font-bold" for="position"
+                                                            :value="__('Position')" />
+                                                        <span class="text-red-500 text-opacity-0 ml-1">*</span>
+                                                    </div>
+                                                    <select name="position"
+                                                        class="cursor-pointer block  w-full position">
+                                                        <option value="{{ optional($data->nonacademic)->position }}">
+                                                            {{ optional($data->nonacademic)->position }}</option>
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('position')"
+                                                        class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+                                                </div>
+
+                                            </div>
+                                        @endif
+                                        <div class="mt-3 flex-1 mx-1 flex">
+                                            <div class="flex flex-col w-full">
+                                                <div class="flex items-center">
                                                     <x-input-label class="font-bold" for="universityID"
                                                         :value="__('University ID')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
-                                                <x-text-input class="block mt-1 w-full" type="text"
+                                                <x-text-input class="block  w-full" type="text"
                                                     name="universityID" autocomplete="off" :value="$data->universityID ?? ''">
                                                 </x-text-input>
-                                                <x-input-error :messages="$errors->get('universityID')"
-                                                    class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                             </div>
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
+                                            <x-input-error :messages="$errors->get('universityID')"
+                                                class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
+
+                                            <div class="flex flex-col w-full ms-2">
+                                                <div class="flex items-center">
                                                     <x-input-label class="font-bold" for="email"
                                                         :value="__('Email')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
-                                                <x-text-input class="block mt-1 w-full" type="text" name="email"
+                                                <x-text-input class="block  w-full" type="text" name="email"
                                                     autocomplete="off" :value="$data->email ?? ''">
                                                 </x-text-input>
                                                 <x-input-error :messages="$errors->get('email')"
                                                     class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                             </div>
-                                            <div class="mt-3 flex-1 mx-1">
-                                                <div class="flex">
+                                            <div class="flex flex-col w-full ms-2">
+                                                <div class="flex items-center">
                                                     <x-input-label class="font-bold" for="cNumber"
                                                         :value="__('Contact Number')" />
                                                     <span class="text-red-500 ml-1">*</span>
                                                 </div>
-                                                <x-text-input class="block mt-1 w-full" type="text" name="cNumber"
+                                                <x-text-input class="block  w-full" type="text" name="cNumber"
                                                     autocomplete="off" :value="$data->cNumber ?? ''">
                                                 </x-text-input>
                                                 <x-input-error :messages="$errors->get('cNumber')"
                                                     class="mt-2 text-facilityEaseMain font-bold italic text-sm text-right my-1" />
                                             </div>
-                                            <div class="mt-9 mb-4 flex justify-end">
+                                        </div>
+                                        <div class="mt-9 mb-4 flex justify-end">
 
-                                                <x-primary-button
-                                                    class="bg-facilityEaseMain hover:bg-facilityEaseGreen ms-3 items-center justify-center py-2 w-1/2">
-                                                    {{ __('Update Information') }}
-                                                </x-primary-button>
-                                            </div>
+                                            <x-primary-button
+                                                class="bg-facilityEaseMain hover:bg-facilityEaseGreen ms-3 items-center justify-center py-2 w-1/2">
+                                                {{ __('Update Information') }}
+                                            </x-primary-button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                        </x-modal>
+                        </x-long-modal>
                     @endforeach
                 </tbody>
             </table>
