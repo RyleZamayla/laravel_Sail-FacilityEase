@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('userID')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->unique();
             $table->foreignId('orgID')->constrained('organizations')->onDelete('cascade')->onUpdate('cascade')->unique();
-            $table->string('orgName')->unique();
+            $table->string('orgName');
             $table->string('orgPosition');
             $table->string('created_by');
             $table->timestamps();
