@@ -185,9 +185,9 @@
                                             <div class="text-base font-semibold">{{ $equipment->facility->facility }}
                                             </div>
                                             <div class="font-normal text-gray-500">
-                                                Bldg. {{ $facility->building->buildingNumber ?? 'N/A' }},
-                                                {{ $facility->building->building ?? 'N/A' }} –
-                                                {{ getOrdinal($facility->building_floor->floorNumber ?? 'N/A') }} Floor
+                                                Bldg. {{ $equipment->facility->building->buildingNumber ?? 'N/A' }},
+                                                {{ $equipment->facility->building->building ?? 'N/A' }} –
+                                                {{ getOrdinal($equipment->facility->building_floor->floorNumber ?? 'N/A') }} Floor
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">

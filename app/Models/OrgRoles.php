@@ -13,7 +13,7 @@ class OrgRoles extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'userID', 'id');
+        return $this->hasMany(User::class, 'userID', 'id');
     }
 
     public function organization()
