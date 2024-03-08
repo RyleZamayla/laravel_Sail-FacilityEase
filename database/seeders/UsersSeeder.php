@@ -118,7 +118,7 @@ class UsersSeeder extends Seeder
 
         $nonacademics = [
             ['userID' => 1, 'office' => 'Vice Chancellor Academic Affairs', 'position' => 'Office of the Dean CITC','created_at' => $currentTimestamp, 'updated_at' => $currentTimestamp],
-            // ['userID' => 2, 'office' => 'Vice Chancellor Academic Affairs', 'position' => 'Office of the Dean CITC','created_at' => $currentTimestamp, 'updated_at' => $currentTimestamp],
+            ['userID' => 2, 'office' => 'Vice Chancellor Academic Affairs', 'position' => 'Office of the Dean CITC','created_at' => $currentTimestamp, 'updated_at' => $currentTimestamp],
             // ['userID' => 4, 'office' => 'Vice Chancellor Academic Affairs', 'position' => 'Office of the Dean CITC','created_at' => $currentTimestamp, 'updated_at' => $currentTimestamp],
             // ['userID' => 7, 'office' => 'Vice Chancellor Academic Affairs', 'position' => 'Office of the Dean CITC','created_at' => $currentTimestamp, 'updated_at' => $currentTimestamp],
 
