@@ -127,7 +127,7 @@
                         </tr>
                         <x-long-modal name="edit-user-{{ $data->id }}" focusable class="max-w-md">
                             <div class="w-full px-5 pt-5">
-                                <div class="max-h-[44rem] overflow-y-auto scrollbar-none">
+                                <div class="">
                                     <form action="{{ route('edit-user-data', ['userId' => $data->id]) }}"
                                         method="post">
                                         @csrf
@@ -196,7 +196,7 @@
                                                         @if ($data->user_role->first()->roleID == 6)
                                                             Student
                                                         @elseif ($data->user_role->first()->roleID == 5)
-                                                            Organization
+                                                            Student Leader
                                                         @elseif ($data->user_role->first()->roleID == 4)
                                                             Faculty
                                                         @elseif ($data->user_role->first()->roleID == 3)
