@@ -93,7 +93,7 @@ class ReservationController extends Controller
             abort(404);
         }
 
-        $equipments = Equipment::where('facilityID', $id)->get();
+        $equipments = Equipment::where('facilityID', $id)->where('status', 'SERVICEABLE')->get();
 
         $reservations = Reservation::where('facilityID', $id)
         ->whereIn('status', ['PENCILBOOKED', 'APPROVED', 'OCCUPIED', 'RESCHEDULED'])
