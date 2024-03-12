@@ -260,7 +260,7 @@
                             <div class="pl-5">
                                 @foreach ($equipments as $equipment)
                                     <div class="flex items-center mt-3">
-                                        <input type="checkbox" checked name="selectedEquipments[]"
+                                        <input type="checkbox" name="selectedEquipments[]"
                                             value="{{ $equipment->id }}" id="{{ $equipment->id }}"
                                             class="w-6 h-6 bg-green-200 border-green-800 rounded-lg cursor-pointer">
                                         <label for="{{ $equipment->id }}" class="pl-2 text-slate-400">
