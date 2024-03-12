@@ -25,7 +25,7 @@
         </p>
         <br>
         <p>Click this hyperlink inorder for you to be directly redirected to your reservation form: </p>
-        <a href="{{ route('user.showReservationById', ['universityID' => $data->facility->user_role->user->universityID, 'id' => $data->id]) }}"
+        <a href="{{ route('email.showReservationById', ['universityID' => $data->facility->user_role->user->universityID, 'id' => $data->id]) }}"
             target="_blank" class="custom-button"><b>View details</b></a>
 
 
