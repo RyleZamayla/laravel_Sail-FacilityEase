@@ -15,7 +15,6 @@
         "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^3.4",
         "simplesoftwareio/simple-qrcode": "~1"
     },
     "require-dev": {
