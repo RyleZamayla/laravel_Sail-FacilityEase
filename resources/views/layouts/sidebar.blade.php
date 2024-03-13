@@ -78,7 +78,7 @@
         <li>
             <a href="{{ route('dashboard') }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('dashboard') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('dashboard') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -96,7 +96,7 @@
                 @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
                  <a href=" {{ route('scanner') }}"
                     class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                    {{ request()->routeIs('scanner') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                    {{ request()->routeIs('scanner') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                     ">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -112,7 +112,7 @@
                 @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
                 <a href=" {{ route('fic.scanner') }}"
                     class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                    {{ request()->routeIs('fic.scanner') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                    {{ request()->routeIs('fic.scanner') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                     ">
                     <span class="inline-flex justify-center items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -132,11 +132,11 @@
             @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
             <a href= "{{ route('showReservations', ['universityID' => Auth::User()->universityID]) }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('updateReservationFormReschedule') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('updateReservationFormReschedule') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -151,11 +151,11 @@
             @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
             <a href= "{{ route('fic.showReservations', ['universityID' => Auth::User()->universityID]) }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('fic.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('fic.reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('fic.updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('fic.updateReservationFormReschedule') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('fic.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('fic.reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('fic.updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('fic.updateReservationFormReschedule') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -170,10 +170,10 @@
             @elseif (Auth::User()->User_Role->where('roleID', 3 || 4 || 5)->count() > 0)
             <a href= "{{ route('user.showReservations', ['universityID' => Auth::User()->universityID]) }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('user.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('user.reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('user.showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
-                {{ request()->routeIs('user.updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('user.showReservations') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('user.reservationForm') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('user.showReservationById') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
+                {{ request()->routeIs('user.updateReservation') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -191,7 +191,7 @@
             @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
             <a href="{{ route('facilities') }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -206,7 +206,7 @@
             @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
             <a href="{{ route('fic.facilities') }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('fic.facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('fic.facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -221,7 +221,7 @@
             @elseif (Auth::User()->User_Role->where('roleID', 3 || 4 || 5)->count() > 0)
             <a href="{{ route('user.facilities') }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('user.facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('user.facilities') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -240,7 +240,7 @@
                 @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
                     <a href="{{ route('equipment') }}"
                         class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                        {{ request()->routeIs('equipment') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        {{ request()->routeIs('equipment') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                         ">
                         <span class="inline-flex justify-center items-center ml-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -256,7 +256,7 @@
                 @if (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
                     <a href="{{ route('fic.equipment') }}"
                         class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                        {{ request()->routeIs('fic.equipment') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        {{ request()->routeIs('fic.equipment') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                         ">
                         <span class="inline-flex justify-center items-center ml-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -274,7 +274,7 @@
                 @if (Auth::User()->User_Role->where('roleID', 1)->count() > 0)
                     <a href="{{ route('report') }}"
                         class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                        {{ request()->routeIs('report') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        {{ request()->routeIs('report') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                         ">
                         <span class="inline-flex justify-center items-center ml-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -289,7 +289,7 @@
                 @elseif (Auth::User()->User_Role->where('roleID', 2)->count() > 0)
                     <a href="{{ route('fic.report') }}"
                         class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                        {{ request()->routeIs('fic.report') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                        {{ request()->routeIs('fic.report') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                         ">
                         <span class="inline-flex justify-center items-center ml-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -312,7 +312,7 @@
         <li>
             <a href="{{ route('profile.edit') }}"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                {{ request()->routeIs('profile.edit') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                {{ request()->routeIs('profile.edit') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                 ">
                 <span class="inline-flex justify-center items-center ml-4">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -329,7 +329,7 @@
             <li>
                 <a href="{{ route('admin.settings') }}"
                     class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-facilityEaseDarkGrey text-white hover:text-facilityEaseSecondary border-l-4 border-transparent hover:border-facilityEaseMain pr-6 w-full transition ease-in-out duration-300
-                    {{ request()->routeIs('admin.settings') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary border-l-4 border-facilityEaseBlue' : '' }}
+                    {{ request()->routeIs('admin.settings') ? 'bg-facilityEaseDarkGrey text-facilityEaseSecondary ' : '' }}
                     ">
                     <span class="inline-flex justify-center items-center ml-4">
 
