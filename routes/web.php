@@ -27,6 +27,8 @@ Route::get('/', function () {
 
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 
+Route::get('/generate-pdf/{id}', [ReportsController::class, 'pdfGenerator'])->name('pdfGenerator');
+
 Route::get('/auth/{provider}/callback', [ProviderController::class, 'callback']);
 
 Route::get('/dashboard', [ReservationController::class, 'showReservationsInCalendar'])
