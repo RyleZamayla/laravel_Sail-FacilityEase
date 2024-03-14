@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use App\Models\ReservationDays;
+use App\Models\ReservationEquipments;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportsController extends Controller
 {
@@ -172,5 +174,20 @@ class ReportsController extends Controller
         } else {
             return 'years'; // More than 365 days, group by years
         }
+    }
+
+    public function pdfGenerator(Request $request, $id){
+        $reservations = ReservationDays::with('reservation')->where('reservationID', $id)->get();
+        $imagePath = public_path('images/ustp.png');
+        $reservationEquipments = ReservationEquipments::where('reservationID', $id)->get();
+        $data = [
+            'reservations' => $reservations,
+            'imagePath' => $imagePath,
+            'reservationEquipments' => $reservationEquipments,
+        ];
+        $pdf = Pdf::loadView('generatePdf', $data);
+    
+        // Use stream() to display the PDF in the browser
+        return $pdf->stream('test.pdf');
     }
 }
