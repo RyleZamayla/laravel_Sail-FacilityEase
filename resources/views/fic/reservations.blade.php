@@ -193,6 +193,11 @@
                                                         Edit
                                                     </button>
                                                 </form>
+                                                <form action="#" id="pdfForm">
+                                                    <button type="button" class="ml-2 w-32 px-4 py-2 leading-none text-white bg-facilityEaseSecondary rounded-md hover:bg-indigo-600 transition ease-in-out duration-300" onclick="previewPdf({{ $reservation->id }})">
+                                                        Print
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -262,4 +267,11 @@
             /* Set the text color to white on hover if needed */
         }
     </style>
+    <script>    
+         function previewPdf(reservationId) {
+        var url = '{{ route("pdfGenerator", ["id" => ":reservationId"]) }}';
+        url = url.replace(':reservationId', reservationId);
+        window.open(url, '_blank');
+    }
+    </script>
 @endsection
