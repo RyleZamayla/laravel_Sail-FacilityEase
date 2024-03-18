@@ -131,10 +131,17 @@ class RegisteredUserController extends Controller
                     'college' => ['required'],
                     'department' => ['nullable'],
                 ], $messages);
+
+                if ($selectedUser->role == 'Faculty') {
+                    $request->validate([
+                        'email' => ['ends_with:@ustp.edu.ph']
+                    ]);
+                }
             }
 
             if ($selectedUser->role == 'Staff') {
                 $error = $request->validate([
+                    'email' => ['ends_with:@ustp.edu.ph'],
                     'campus' => ['required'],
                     'office' => ['required'],
                     'position' => ['nullable'],
@@ -143,6 +150,7 @@ class RegisteredUserController extends Controller
 
             if ($selectedUser->role == 'Student Leader') {
                 $error = $request->validate([
+                    'email' => ['ends_with:@ustp.edu.ph'],
                     'campus' => ['required'],
                     'college' => ['required'],
                     'department' => ['nullable'],
@@ -198,7 +206,7 @@ class RegisteredUserController extends Controller
                 Academics::create([
                     'userID' => $user->id,
                     'college' => $selectedCollege->college,
-                    'department' => $selectedDepartment->department,
+                    'department' => optional($selectedDepartment)->department,
                 ]);
                 OrgRoles::create([
                     'userID' => $user->id,
