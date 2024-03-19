@@ -190,20 +190,6 @@
                         <div class="flex flex-wrap mt-10">
                             <div class="w-full px-3 sm:w-1/2">
                                 <div class="">
-                                    <label for="date" class="block text-base font-medium ">
-                                        Start Date:
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="date" name="startDate" id="date"
-                                        value="{{ old('startDate') }}"class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-black font-medium  outline-none focus:border-[#6A64F1] focus:shadow-md cursor-pointer" />
-                                </div>
-                                @if ($errors->has('startDate'))
-                                    <div class="mt-2 text-facilityEaseRed font-bold italic text-sm">
-                                        {{ $errors->first('startDate') }}</div>
-                                @endif
-                            </div>
-                            <div class="w-full px-3 sm:w-1/2">
-                                <div class="">
                                     <label for="time" class="block text-base font-medium ">
                                         No. of Days:
                                         <span class="text-red-500">*</span>
@@ -223,21 +209,6 @@
                         </div>
 
                         <div class="flex flex-wrap">
-                            <div class="w-full px-3 sm:w-1/2">
-                                <div class="">
-                                    <label for="date" class="mt-3 block text-base font-medium ">
-                                        End Date:
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="date" name="endDate" id="endDate"
-                                        value="{{ old('endDate') }}"class="mt-2 w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium  outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        readonly />`
-                                </div>
-                                @if ($errors->has('endDate'))
-                                    <div class="mt-2 text-facilityEaseRed font-bold italic text-sm">
-                                        {{ $errors->first('endDate') }}</div>
-                                @endif
-                            </div>
                             <div class="w-full px-3 sm:w-1/2">
                                 <div class="">
                                     <label for="cNumber" class="mt-3 block text-base font-medium ">
@@ -302,95 +273,61 @@
     <script defer src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function updateEndDate() {
-                var startDateValue = document.getElementById('date').value;
-                var daysValue = document.getElementById('days').value;
+        document.addEventListener('DOMContentLoaded', function () {
+            const daysInput = document.getElementById('days');
+            const dayInputsContainer = document.getElementById('dayInputsContainer');
 
-                if (startDateValue && daysValue) {
-                    var startDate = new Date(startDateValue);
+            daysInput.addEventListener('input', function () {
+                const numberOfDays = parseInt(daysInput.value);
+                renderDayInputs(numberOfDays);
+            });
 
-                    // Clear existing day inputs
-                    document.getElementById('dayInputsContainer').innerHTML = '';
+            function renderDayInputs(numberOfDays) {
+                dayInputsContainer.innerHTML = ''; // Clear previous inputs
 
-                    // Generate day inputs based on the number of days
-                    for (let i = 1; i <= parseInt(daysValue); i++) {
-                        addDayInputs(startDate, i);
-                    }
+                for (let i = 1; i <= numberOfDays; i++) {
+                    const dayContainer = document.createElement('div');
+                    dayContainer.classList.add('w-full', 'px-3', 'sm:w-1/2', 'mt-4', 'border', 'border-black', 'p-4', 'rounded-md');
 
-                    // Calculate and update the end date
-                    var endDate = new Date(startDate);
-                    endDate.setDate(startDate.getDate() + parseInt(daysValue) - 1);
+                    const dateLabel = document.createElement('label');
+                    dateLabel.textContent = `Date for Day ${i}:`;
+                    dateLabel.classList.add('block', 'text-base', 'font-medium');
 
-                    // Format the end date in the local time zone
-                    var endDateFormatted = endDate.toISOString().split('T')[0];
-                    document.getElementById('endDate').value = endDateFormatted;
+                    const dateInput = document.createElement('input');
+                    dateInput.type = 'date';
+                    dateInput.name = `dateForDay${i}`;
+                    dateInput.classList.add('w-full', 'rounded-md', 'border', 'border-[#e0e0e0]', 'bg-white', 'py-3', 'px-6', 'text-base', 'font-medium', 'outline-none', 'focus:border-[#6A64F1]', 'focus:shadow-md');
 
-                    @for ($day = 1; $day <= old('noOfdays', 1); $day++)
-                        document.querySelector('input[name="startTime[{{ $day }}]"]').value =
-                            '{{ old("startTime.$day") }}';
-                        document.querySelector('input[name="endTime[{{ $day }}]"]').value =
-                            '{{ old("endTime.$day") }}';
-                    @endfor
+                    const startTimeLabel = document.createElement('label');
+                    startTimeLabel.textContent = 'Start Time:';
+                    startTimeLabel.classList.add('block', 'text-base', 'font-medium', 'mt-4');
+
+                    const startTimeInput = document.createElement('input');
+                    startTimeInput.type = 'time';
+                    startTimeInput.name = `startTimeForDay${i}`;
+                    startTimeInput.classList.add('w-full', 'rounded-md', 'border', 'border-[#e0e0e0]', 'bg-white', 'py-3', 'px-6', 'text-base', 'font-medium', 'outline-none', 'focus:border-[#6A64F1]', 'focus:shadow-md');
+
+                    const endTimeLabel = document.createElement('label');
+                    endTimeLabel.textContent = 'End Time:';
+                    endTimeLabel.classList.add('block', 'text-base', 'font-medium', 'mt-4');
+
+                    const endTimeInput = document.createElement('input');
+                    endTimeInput.type = 'time';
+                    endTimeInput.name = `endTimeForDay${i}`;
+                    endTimeInput.classList.add('w-full', 'rounded-md', 'border', 'border-[#e0e0e0]', 'bg-white', 'py-3', 'px-6', 'text-base', 'font-medium', 'outline-none', 'focus:border-[#6A64F1]', 'focus:shadow-md');
+
+                    // Append elements to the day container
+                    dayContainer.appendChild(dateLabel);
+                    dayContainer.appendChild(dateInput);
+                    dayContainer.appendChild(startTimeLabel);
+                    dayContainer.appendChild(startTimeInput);
+                    dayContainer.appendChild(endTimeLabel);
+                    dayContainer.appendChild(endTimeInput);
+
+                    // Append the day container to the main container
+                    dayInputsContainer.appendChild(dayContainer);
                 }
             }
-
-            function addDayInputs(startDate, dayNumber) {
-                var container = document.getElementById('dayInputsContainer');
-
-                var dayDiv = document.createElement('div');
-                dayDiv.className = 'w-full px-3 sm:w-1/2';
-
-
-                var boxContainer = document.createElement('div');
-                boxContainer.className = 'border border-gray-300 p-4 mt-4 rounded-md';
-
-                var dayLabel = document.createElement('label');
-                dayLabel.className = 'mt-3 block text-base font-medium ';
-                dayLabel.innerHTML = 'Day ' + dayNumber + ':';
-
-                var startTimeLabel = document.createElement('label');
-                startTimeLabel.className = 'mt-2 block text-base font-medium ';
-                startTimeLabel.innerHTML = 'Start Time:';
-
-                // Start Time Input
-                var startTimeInput = document.createElement('input');
-                startTimeInput.type = 'time';
-                startTimeInput.name = 'startTime[' + dayNumber + ']'; // Use dayNumber to create unique input names
-                startTimeInput.className =
-                    'mt-2 w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-[#6A64F1] focus:shadow-md';
-                startTimeInput.required = true;
-                startTimeInput.value = '{{ old("startTime.$day") }}';
-
-                // End Time Label
-                var endTimeLabel = document.createElement('label');
-                endTimeLabel.className = 'mt-2 block text-base font-medium ';
-                endTimeLabel.innerHTML = 'End Time:';
-
-                // End Time Input
-                var endTimeInput = document.createElement('input');
-                endTimeInput.type = 'time';
-                endTimeInput.name = 'endTime[' + dayNumber + ']'; // Use dayNumber to create unique input names
-                endTimeInput.className =
-                    'mt-2 w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-[#6A64F1] focus:shadow-md';
-                endTimeInput.required = true;
-
-                // Append elements
-                boxContainer.appendChild(dayLabel);
-                boxContainer.appendChild(startTimeLabel);
-                boxContainer.appendChild(startTimeInput);
-                boxContainer.appendChild(endTimeLabel);
-                boxContainer.appendChild(endTimeInput);
-                dayDiv.appendChild(boxContainer);
-                container.appendChild(dayDiv);
-            }
-
-            // Attach the event listeners
-            document.getElementById('date').addEventListener('input', updateEndDate);
-            document.getElementById('days').addEventListener('input', updateEndDate);
-
-            // Trigger the update on page load if values are pre-filled
-            updateEndDate();
         });
 
         document.addEventListener('DOMContentLoaded', function() {
