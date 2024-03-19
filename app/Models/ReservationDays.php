@@ -26,7 +26,7 @@ class ReservationDays extends Model
 
     protected $fillable = [
         'reservationID',
-        'days',
+        // 'days',
         'date',
         'startTime',
         'endTime',

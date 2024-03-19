@@ -80,11 +80,11 @@ class Reservation extends Model
         }
     }
 
-    protected $casts = [
-        'startDate' => 'datetime:Y-m-d',
-        'endDate' => 'datetime:Y-m-d',
+    // protected $casts = [
+    //     'startDate' => 'datetime:Y-m-d',
+    //     'endDate' => 'datetime:Y-m-d',
 
-    ];
+    // ];
 
 
     protected $fillable = [
@@ -92,9 +92,9 @@ class Reservation extends Model
         'facilityID',
         'roleID',
         'event',
-        'startDate',
+        // 'startDate',
         'noOfdays',
-        'endDate',
+        // 'endDate',
         'occupants',
         'status',
         'is_viewed'
