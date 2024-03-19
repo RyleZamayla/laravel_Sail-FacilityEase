@@ -47,16 +47,11 @@
 
                 </div>
             </div>
-
-
             <x-long-modal name="facility-type" focusable class="max-w-md">
-                <div class="p-4 flex flex-wrap justify-center items-center w-full rounded-lg bg-white shadow">
+                <div class="py-6 flex flex-wrap justify-center items-center w-full rounded-lg bg-white shadow">
                     @foreach ($facilitiesData as $facility)
-                        <div
-                            class="w-md h-md m-2 flex flex-col justify-between text-center rounded-md shadow-md hover:shadow-facilityEaseSecondary bg-gray-200 transition ease-in-out duration-300">
-                            <div class="block w-56 h-64">
-                                <div class="relative items-center justify-center rounded-full">
-                                    <a href="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
+                        <div class="m-2 w-48 h-48  rounded-md shadow-md hover:shadow-facilityEaseSecondary bg-gray-200 transition ease-in-out duration-300">
+                            <a href="@if (Auth::user()->user_role->where('roleID', 1)->count() > 0) {{ route('reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
                                         @elseif(Auth::user()->user_role->where('roleID', 2)->count() > 0)
                                             {{ route('fic.reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
                                         @elseif(Auth::user()->user_role->where('roleID', 3)->count() > 0)
@@ -67,31 +62,25 @@
                                             {{ route('user.reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }}
                                         @elseif(Auth::user()->user_role->where('roleID', 6)->count() > 0)
                                             {{ route('user.reservationForm', ['universityID' => Auth::User()->universityID, 'id' => $facility->id]) }} @endif"
-                                        class="flex flex-col items-center justify-between hover:text-facilityEaseBlue transition ease-in-out duration-300">
+                                class="hover:text-facilityEaseBlue transition ease-in-out duration-300">
 
-                                        <div class="mt-3 px-1 justify-center text-lg">
-                                            {{ $facility->facility }}
-                                        </div>
+                                <div class="flex flex-col h-48 items-center justify-between p-3">
+                                    <div class="flex justify-center text-md font-semibold">
+                                        <center>{{ $facility->facility }}</center>
+                                    </div>
 
-                                        <div class="justify-center items-center w-32 mt-3">
-                                            <img class="" src="{{ asset('images/FacilityEaseLogo-BG.png') }}"
-                                                alt="FacilityEase Logo">
-                                        </div>
-
-                                        <div class="flex flex-col justify-end mt-3">
-                                            <div>
-                                                <i class="fas fa-bookmark mr-1"></i>Book
-                                            </div>
-                                        </div>
-                                    </a>
+                                    <div class="w-28">
+                                        <img class="" src="{{ asset('images/FacilityEaseLogo-BG-round.png') }}"
+                                            alt="FacilityEase Logo">
+                                    </div>
                                 </div>
-                            </div>
+
+                            </a>
                         </div>
                     @endforeach
                 </div>
 
             </x-long-modal>
-
             <div>
                 <div class="relative overflow-y-auto sm:rounded-lg bg-white scrollbar-none p-4">
                     <div id='calendar'></div>
@@ -99,7 +88,6 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
