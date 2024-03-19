@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('facilityID')->constrained('facilities')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('roleID')->constrained('user_roles')->onDelete('cascade')->onUpdate('cascade');
             $table->string('event');
-            $table->date('startDate');
+            // $table->date('startDate');
             $table->smallInteger('noOfdays');
-            $table->date('endDate');
+            // $table->date('endDate');
             $table->smallInteger('occupants');
             $table->enum('status', ['PENDING', 'PENCILBOOKED', 'APPROVED', 'DECLINED', 'CANCELLED', 'OCCUPIED', 'REVOKED', 'RESCHEDULED'])->default('PENDING');
             $table->string('reason')->nullable();

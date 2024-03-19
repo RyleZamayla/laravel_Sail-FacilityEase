@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reservation_days', function (Blueprint $table) {
             $table->id();
             $table->foreignId('reservationID')->constrained('reservations')->onDelete('cascade')->onUpdate('cascade');
-            $table->smallInteger('days');
+            // $table->smallInteger('days');
             $table->date('date');
             $table->time('startTime');
             $table->time('endTime'); 
