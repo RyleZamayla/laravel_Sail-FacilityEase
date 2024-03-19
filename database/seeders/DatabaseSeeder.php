@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             FacilitiesSeeder::class,
             EquipmentsSeeder::class,
-            ReportsSeeder::class
+            //ReportsSeeder::class
         ]);
     }
 }
