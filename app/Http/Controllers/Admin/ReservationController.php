@@ -105,211 +105,300 @@ class ReservationController extends Controller
         return view('fic.reservationForm', compact('facility', 'equipments', 'reservations'));
     }
 
+    // public function createReservation(Request $request, $id)
+    // {
+    //     $user = Auth::user();
+    //     $userRole = $user->user_role->first();
+
+    //     $facilities = Facility::findOrFail($id);
+    //     $maxDays = $facilities->maxDays;
+    //     $maxHours = $facilities->maxHours;
+
+    //     $requestData = Validator::make($request->all(), [
+    //         'event' => 'required|string|max:255',
+    //         'startDate' => 'required|date',
+    //         'startDate' => 'required|date|after_or_equal:today',
+    //         'noOfdays' => "integer|min:1|max:$maxDays",
+    //         'endDate' => 'required|date',
+    //         'endDate' => 'required|date|after_or_equal:startDate',
+    //         'occupants' => [
+    //             'required',
+    //             'integer',
+    //             function ($attribute, $value, $fail) use ($id) {
+    //                 $facility = Facility::findOrFail($id);
+    //                 if ($value > $facility->capacity) {
+    //                     $fail("The number of attendees exceeds the capacity of the facility (Capacity: {$facility->capacity}).");
+    //                 }
+    //             },
+    //         ],
+    //     ], [
+    //         'noOfdays.min' => 'The number of days must be at least 1.',
+    //         'noOfdays.required' => 'The number of days is required.',
+    //         'occupants.integer' => 'The number of attendees must be an integer.',
+    //         'startDate.after_or_equal' => 'The start date must be today or a future date.',
+    //     ]);
+
+    //     if ($requestData->fails()) {
+    //         return redirect()
+    //             ->back()
+    //             ->withErrors($requestData)
+    //             ->withInput();
+    //     }
+
+    //     $requestData = $requestData->validated();
+
+    //     for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
+    //         $requestData["startTime_$day"] = 'required|date_format:H:i';
+    //         $requestData["endTime_$day"] = 'required|date_format:H:i';
+    //     }
+
+    //     if ($requestData['noOfdays'] == 1) {
+    //         $requestData['endDate'] = $requestData['startDate'];
+    //     } else {
+    //         $endDate = Carbon::parse($requestData['startDate'])->addDays($requestData['noOfdays'] - 1)->toDateString();
+    //         $requestData['endDate'] = $endDate;
+    //     }
+
+    //     $requestData['facilityID'] = $id;
+    //     $requestData['userID'] = $user->id;
+    //     $requestData['roleID'] = $user->id;
+
+    //     $dateRange = [];
+    //     for ($i = 0; $i < $requestData['noOfdays']; $i++) {
+    //         $currentDate = Carbon::parse($requestData['startDate'])->addDays($i)->toDateString();
+    //         $dateRange[] = $currentDate;
+    //     }
+    //     info($dateRange);
+    //     $conflictingReservations = [];
+    //     for ($day = 1; $day <= $request->input('noOfdays'); $day++) {
+    //         $dayConflicts = ReservationDays::with('reservation.facility')
+    //             ->whereHas('reservation', function ($q) use ($requestData) {
+    //                 $q->where('facilityID', $requestData['facilityID'])
+    //                     ->whereIn('status', ['APPROVED', 'PENCILBOOKED', 'RESCHEDULED', 'OCCUPIED']);
+    //             })
+    //             ->where(function ($query) use ($request, $day, $dateRange) {
+    //                 $startTime = $request->input("startTime.$day") . ':00';
+    //                 $endTime = $request->input("endTime.$day") . ':00';
+    //                 $query->where(function ($subquery) use ($day, $startTime, $endTime, $dateRange) {
+    //                     $subquery
+    //                         ->where(function ($timeQuery) use ($day, $startTime, $endTime, $dateRange) {
+    //                             $timeQuery
+    //                                 ->orWhere(function ($q) use ($startTime, $endTime, $dateRange, $day) {
+    //                                     $q->where('date', $dateRange[$day - 1])
+    //                                         ->where('startTime', '<=', $startTime)
+    //                                         ->where('endTime', '>', $startTime);
+    //                                 })
+    //                                 ->orWhere(function ($q) use ($startTime, $endTime, $dateRange, $day) {
+    //                                     $q->where('date', $dateRange[$day - 1])
+    //                                         ->where('startTime', '<', $endTime)
+    //                                         ->where('endTime', '=>', $endTime);
+    //                                 });
+    //                         });
+    //                 });
+    //             })
+    //             ->get();
+
+    //         if (count($dayConflicts) > 0) {
+    //             $conflictingReservations[] = [
+    //                 'date' => $dayConflicts[0]['startTime'] . ' - ' . $dayConflicts[0]['endTime']
+    //             ];
+    //         }
+    //     }
+
+    //     if (count($conflictingReservations)) {
+    //         return redirect()->back()->withErrors([
+    //             'conflict' => 'The selected date and time slot is not available.'
+    //         ])->withInput();
+    //     }
+
+
+    //     $openTime = Carbon::parse($facilities->openTime)->format('H:i');
+    //     $closeTime = Carbon::parse($facilities->closeTime)->format('H:i');
+
+    //     $validationRules = [];
+    //     $validationMessages = [];
+
+
+    //     for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
+    //         $validationRules["startTime.$day"] = [
+    //             'required',
+    //             'date_format:H:i',
+    //             function ($attribute, $value, $fail) use ($facilities, $day) {
+    //                 $openTime = Carbon::parse($facilities->openTime)->format('H:i');
+    //                 if ($value < $openTime) {
+    //                     $fail("The start time for day $day must be after or equal to the opening time of the facility ($openTime).");
+    //                 }
+    //             },
+    //         ];
+    //         $validationRules["endTime.$day"] = [
+    //             'required',
+    //             'date_format:H:i',
+    //             'after:startTime.' . $day,
+    //             function ($attribute, $value, $fail) use ($facilities, $day, &$totalHoursPerDay) {
+    //                 $closeTime = Carbon::parse($facilities->closeTime)->format('H:i');
+    //                 if ($value > $closeTime) {
+    //                     $fail("The end time for day $day must be before or equal to the closing time of the facility ($closeTime).");
+    //                 }
+
+    //                 $totalHoursPerDay = 0;
+    //                 $startTime = request()->input("startTime.$day");
+    //                 $totalHoursPerDay += Carbon::parse($startTime)->diffInHours(Carbon::parse($value));
+
+    //                 if ($totalHoursPerDay > $facilities->maxHours) {
+    //                     $fail("The total duration for day $day exceeds the maximum allowed hours of {$facilities->maxHours}.");
+    //                 }
+    //             },
+    //         ];
+
+    //         $validationMessages += [
+    //             "startTime.$day.after_or_equal" => "The start time for day $day must be after or equal to the opening time of the facility ($openTime).",
+    //             "startTime.$day.before_or_equal" => "The start time for day $day must be before or equal to the closing time of the facility ($closeTime).",
+    //             "endTime.$day.after" => "The end time for day $day must be greater than the start time.",
+    //             "endTime.$day.before_or_equal" => "The end time for day $day must be before or equal to the closing time of the facility ($closeTime).",
+    //         ];
+    //     }
+
+    //     $validator = Validator::make($request->all(), $validationRules, $validationMessages);
+
+    //     if ($validator->fails()) {
+    //         return redirect()
+    //             ->back()
+    //             ->withErrors($validator, 'timeErrors')
+    //             ->withInput();
+    //     }
+
+    //     $reservation = Reservation::create($requestData);
+
+    //     for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
+    //         $startTime = $request->input("startTime.$day");
+    //         $endTime = $request->input("endTime.$day");
+
+
+    //         ReservationDays::create([
+    //             'reservationID' => $reservation->id,
+    //             'days' => $day,
+    //             'date' => $dateRange[$day - 1],
+    //             'startTime' => $startTime,
+    //             'endTime' => $endTime,
+    //         ]);
+    //     }
+
+    //     $fileData = $request->validate([
+    //         'file.*' => 'nullable|file|max:2048',
+    //     ]);
+
+    //     if ($request->hasFile('file') && count($request->file('file')) > 0) {
+    //         foreach ($request->file('file') as $file) {
+    //             if ($file->isValid()) {
+    //                 $originalFileName = $file->getClientOriginalName();
+    //                 $filePath = $file->storeAs('reservation_files', $originalFileName, 'public');
+
+    //                 ReservationDocuments::create([
+    //                     'reservationID' => $reservation->id,
+    //                     'file' => $filePath,
+    //                 ]);
+    //             } else {
+    //                 return redirect()->back()->withErrors(['file' => 'One or more files are not valid.']);
+    //             }
+    //         }
+    //     }
+
+    //     $selectedEquipmentIds = $request->input('selectedEquipments') ?? [];
+    //     foreach ($selectedEquipmentIds as $equipmentId) {
+    //         ReservationEquipments::create([
+    //             'reservationID' => $reservation->id,
+    //             'equipmentID' => $equipmentId,
+    //         ]);
+    //     }
+
+    //     $data = Reservation::with('facility.user_role.user', 'user', 'reservation_days', 'equipment')->find($reservation->id);
+    //     try {
+    //         Mail::to(auth()->user()->email)->send(new ReservationMail($data));
+    //         $facilitator = $data->facility->user_role->user;
+    //         Mail::to($facilitator->email)->send(new AdminReservationStatusMail($facilitator, $data));
+    //         // $admins = UserRoles::with('user')->where('roleID', 2)->get();
+    //         // foreach ($admins as $admin) {
+    //         //     Mail::to($admin->user->email)->send(new AdminReservationStatusMail($admin->user, $data));
+    //         // }
+    //     } catch (\Throwable $e) {
+    //         info($e);
+    //     }
+
+    //     if (Auth::user()->user_role->where('roleID', 2)->count() > 0) {
+    //         return redirect('/dashboard');
+    //     } elseif (Auth::user()->user_role->whereIn('roleID', [3, 4, 5, 6])->count() > 0) {
+    //         return redirect()->route('user.showReservations', ['universityID' => Auth::user()->universityID])->with('success', 'Your reservation is PENDING');
+    //     } else {
+    //         return redirect()->route('showReservations', ['universityID' => Auth::user()->universityID])->with('success', 'Your reservation is PENDING');
+    //     }
+    // }
+
     public function createReservation(Request $request, $id)
     {
         $user = Auth::user();
         $userRole = $user->user_role->first();
 
-        $facilities = Facility::findOrFail($id);
-        $maxDays = $facilities->maxDays;
-        $maxHours = $facilities->maxHours;
-
-        $requestData = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'event' => 'required|string|max:255',
-            'startDate' => 'required|date',
-            'startDate' => 'required|date|after_or_equal:today',
-            'noOfdays' => "integer|min:1|max:$maxDays",
-            'endDate' => 'required|date',
-            'endDate' => 'required|date|after_or_equal:startDate',
-            'occupants' => [
-                'required',
-                'integer',
-                function ($attribute, $value, $fail) use ($id) {
-                    $facility = Facility::findOrFail($id);
-                    if ($value > $facility->capacity) {
-                        $fail("The number of attendees exceeds the capacity of the facility (Capacity: {$facility->capacity}).");
-                    }
-                },
-            ],
-        ], [
-            'noOfdays.min' => 'The number of days must be at least 1.',
-            'noOfdays.required' => 'The number of days is required.',
-            'occupants.integer' => 'The number of attendees must be an integer.',
-            'startDate.after_or_equal' => 'The start date must be today or a future date.',
+            'occupants' => 'required|integer|min:0',
+            'noOfdays' => 'required|integer|min:1',
         ]);
 
-        if ($requestData->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($requestData)
-                ->withInput();
-        }
+        $facility = Facility::findOrFail($id);
 
-        $requestData = $requestData->validated();
+        $reservation = new Reservation();
 
-        for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
-            $requestData["startTime_$day"] = 'required|date_format:H:i';
-            $requestData["endTime_$day"] = 'required|date_format:H:i';
-        }
+        $reservation->event = $validatedData['event'];
+        $reservation->occupants = $validatedData['occupants'];
+        $reservation->noOfdays = $validatedData['noOfdays'];
 
-        if ($requestData['noOfdays'] == 1) {
-            $requestData['endDate'] = $requestData['startDate'];
-        } else {
-            $endDate = Carbon::parse($requestData['startDate'])->addDays($requestData['noOfdays'] - 1)->toDateString();
-            $requestData['endDate'] = $endDate;
-        }
+        $reservation->facilityID = $facility->id; 
+        $reservation->userID = Auth::id(); 
+        $reservation->roleID = $user->id;
 
-        $requestData['facilityID'] = $id;
-        $requestData['userID'] = $user->id;
-        $requestData['roleID'] = $user->id;
+        $reservation->save();
 
-        $dateRange = [];
-        for ($i = 0; $i < $requestData['noOfdays']; $i++) {
-            $currentDate = Carbon::parse($requestData['startDate'])->addDays($i)->toDateString();
-            $dateRange[] = $currentDate;
-        }
-        info($dateRange);
-        $conflictingReservations = [];
-        for ($day = 1; $day <= $request->input('noOfdays'); $day++) {
-            $dayConflicts = ReservationDays::with('reservation.facility')
-                ->whereHas('reservation', function ($q) use ($requestData) {
-                    $q->where('facilityID', $requestData['facilityID'])
-                        ->whereIn('status', ['APPROVED', 'PENCILBOOKED', 'RESCHEDULED', 'OCCUPIED']);
-                })
-                ->where(function ($query) use ($request, $day, $dateRange) {
-                    $startTime = $request->input("startTime.$day") . ':00';
-                    $endTime = $request->input("endTime.$day") . ':00';
-                    $query->where(function ($subquery) use ($day, $startTime, $endTime, $dateRange) {
-                        $subquery
-                            ->where(function ($timeQuery) use ($day, $startTime, $endTime, $dateRange) {
-                                $timeQuery
-                                    ->orWhere(function ($q) use ($startTime, $endTime, $dateRange, $day) {
-                                        $q->where('date', $dateRange[$day - 1])
-                                            ->where('startTime', '<=', $startTime)
-                                            ->where('endTime', '>', $startTime);
-                                    })
-                                    ->orWhere(function ($q) use ($startTime, $endTime, $dateRange, $day) {
-                                        $q->where('date', $dateRange[$day - 1])
-                                            ->where('startTime', '<', $endTime)
-                                            ->where('endTime', '=>', $endTime);
-                                    });
-                            });
-                    });
-                })
-                ->get();
+        for ($i = 1; $i <= $validatedData['noOfdays']; $i++) {
+            $dateForDay = $request->input('dateForDay' . $i);
+            $startTimeForDay = $request->input('startTimeForDay' . $i);
+            $endTimeForDay = $request->input('endTimeForDay' . $i);
 
-            if (count($dayConflicts) > 0) {
-                $conflictingReservations[] = [
-                    'date' => $dayConflicts[0]['startTime'] . ' - ' . $dayConflicts[0]['endTime']
-                ];
-            }
-        }
+            $reservationDay = new ReservationDays();
 
-        if (count($conflictingReservations)) {
-            return redirect()->back()->withErrors([
-                'conflict' => 'The selected date and time slot is not available.'
-            ])->withInput();
-        }
+            $reservationDay->date = $dateForDay;
+            $reservationDay->startTime = $startTimeForDay;
+            $reservationDay->endTime = $endTimeForDay;
 
-
-        $openTime = Carbon::parse($facilities->openTime)->format('H:i');
-        $closeTime = Carbon::parse($facilities->closeTime)->format('H:i');
-
-        $validationRules = [];
-        $validationMessages = [];
-
-
-        for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
-            $validationRules["startTime.$day"] = [
-                'required',
-                'date_format:H:i',
-                function ($attribute, $value, $fail) use ($facilities, $day) {
-                    $openTime = Carbon::parse($facilities->openTime)->format('H:i');
-                    if ($value < $openTime) {
-                        $fail("The start time for day $day must be after or equal to the opening time of the facility ($openTime).");
-                    }
-                },
-            ];
-            $validationRules["endTime.$day"] = [
-                'required',
-                'date_format:H:i',
-                'after:startTime.' . $day,
-                function ($attribute, $value, $fail) use ($facilities, $day, &$totalHoursPerDay) {
-                    $closeTime = Carbon::parse($facilities->closeTime)->format('H:i');
-                    if ($value > $closeTime) {
-                        $fail("The end time for day $day must be before or equal to the closing time of the facility ($closeTime).");
-                    }
-
-                    $totalHoursPerDay = 0;
-                    $startTime = request()->input("startTime.$day");
-                    $totalHoursPerDay += Carbon::parse($startTime)->diffInHours(Carbon::parse($value));
-
-                    if ($totalHoursPerDay > $facilities->maxHours) {
-                        $fail("The total duration for day $day exceeds the maximum allowed hours of {$facilities->maxHours}.");
-                    }
-                },
-            ];
-
-            $validationMessages += [
-                "startTime.$day.after_or_equal" => "The start time for day $day must be after or equal to the opening time of the facility ($openTime).",
-                "startTime.$day.before_or_equal" => "The start time for day $day must be before or equal to the closing time of the facility ($closeTime).",
-                "endTime.$day.after" => "The end time for day $day must be greater than the start time.",
-                "endTime.$day.before_or_equal" => "The end time for day $day must be before or equal to the closing time of the facility ($closeTime).",
-            ];
-        }
-
-        $validator = Validator::make($request->all(), $validationRules, $validationMessages);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator, 'timeErrors')
-                ->withInput();
-        }
-
-        $reservation = Reservation::create($requestData);
-
-        for ($day = 1; $day <= $requestData['noOfdays']; $day++) {
-            $startTime = $request->input("startTime.$day");
-            $endTime = $request->input("endTime.$day");
-
-
-            ReservationDays::create([
-                'reservationID' => $reservation->id,
-                'days' => $day,
-                'date' => $dateRange[$day - 1],
-                'startTime' => $startTime,
-                'endTime' => $endTime,
-            ]);
+            $reservation->reservation_days()->save($reservationDay);
         }
 
         $fileData = $request->validate([
-            'file.*' => 'nullable|file|max:2048',
-        ]);
-
-        if ($request->hasFile('file') && count($request->file('file')) > 0) {
-            foreach ($request->file('file') as $file) {
-                if ($file->isValid()) {
-                    $originalFileName = $file->getClientOriginalName();
-                    $filePath = $file->storeAs('reservation_files', $originalFileName, 'public');
-
-                    ReservationDocuments::create([
-                        'reservationID' => $reservation->id,
-                        'file' => $filePath,
-                    ]);
-                } else {
-                    return redirect()->back()->withErrors(['file' => 'One or more files are not valid.']);
+                    'file.*' => 'nullable|file|max:2048',
+                ]);
+        
+                if ($request->hasFile('file') && count($request->file('file')) > 0) {
+                    foreach ($request->file('file') as $file) {
+                        if ($file->isValid()) {
+                            $originalFileName = $file->getClientOriginalName();
+                            $filePath = $file->storeAs('reservation_files', $originalFileName, 'public');
+        
+                            ReservationDocuments::create([
+                                'reservationID' => $reservation->id,
+                                'file' => $filePath,
+                            ]);
+                        } else {
+                            return redirect()->back()->withErrors(['file' => 'One or more files are not valid.']);
+                        }
+                    }
                 }
-            }
-        }
-
-        $selectedEquipmentIds = $request->input('selectedEquipments') ?? [];
-        foreach ($selectedEquipmentIds as $equipmentId) {
-            ReservationEquipments::create([
-                'reservationID' => $reservation->id,
-                'equipmentID' => $equipmentId,
-            ]);
-        }
+        
+                $selectedEquipmentIds = $request->input('selectedEquipments') ?? [];
+                foreach ($selectedEquipmentIds as $equipmentId) {
+                    ReservationEquipments::create([
+                        'reservationID' => $reservation->id,
+                        'equipmentID' => $equipmentId,
+                    ]);
+                }
 
         $data = Reservation::with('facility.user_role.user', 'user', 'reservation_days', 'equipment')->find($reservation->id);
         try {
@@ -362,7 +451,7 @@ class ReservationController extends Controller
             $endDate =  $date;
 
             $facility = $reservation->reservation ? $facilitiesData->where('id', $reservation->reservation->facilityID)->first() : null;
-            $days = $reservation->pluck('days')->toArray();
+            // $days = $reservation->pluck('days')->toArray();
 
             $dayStartTime = $reservation->pluck('startTime')->map(function ($time) {
                 return Carbon::parse($time)->format('H:i');
@@ -391,7 +480,7 @@ class ReservationController extends Controller
                     'startTime' => $dayStartTime,
                     'endTime' =>  $dayEndTime,
                     'status' => $reservation->reservation->status ?? null,
-                    'days' => $days,
+                    // 'days' => $days,
                 ],
             ];
 
